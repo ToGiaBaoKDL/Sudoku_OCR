@@ -7,6 +7,6 @@ pytesseract
 Pillow
 scikit-image
 numpy==1.23.5
-streamlit
+streamlit==1.42.0
 opencv-python-headless==4.6.0.66
 albumentations
