@@ -3,7 +3,6 @@ paddlepaddle
 paddleocr
 imutils
 tesseract
-tesseract-ocr
 pytesseract
 Pillow
 scikit-image
