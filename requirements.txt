@@ -2,7 +2,6 @@ py-sudoku
 paddlepaddle
 paddleocr
 imutils
-opencv-python
 tesseract
 pytesseract
 Pillow
