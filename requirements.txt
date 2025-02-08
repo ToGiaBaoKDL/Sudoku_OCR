@@ -6,6 +6,6 @@ tesseract
 pytesseract
 Pillow
 scikit-image
-numpy
+numpy==1.23.5
 streamlit
 opencv-python-headless==4.6.0.66
