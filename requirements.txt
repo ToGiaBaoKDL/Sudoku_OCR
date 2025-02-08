@@ -1,5 +1,5 @@
 py-sudoku
-paddlepaddle
+paddlepaddle==3.0.0b1
 paddleocr
 imutils
 tesseract
