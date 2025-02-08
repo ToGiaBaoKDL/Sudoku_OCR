@@ -15,7 +15,7 @@ import time
 
 
 # Initialize OCR engine
-ocr = PaddleOCR(use_angle_cls=True, lang="en")
+ocr = PaddleOCR(use_angle_cls=True, lang="ch")
 
 
 def find_puzzle_contour(image, debug=False):
