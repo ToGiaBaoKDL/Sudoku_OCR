@@ -8,4 +8,4 @@ Pillow
 scikit-image
 numpy
 streamlit
-opencv-python-headless==4.8.0.76
+opencv-python-headless==4.6.0.66
