@@ -33,7 +33,7 @@ if __name__ == '__main__':
     input_image = st.sidebar.file_uploader("Choose an image file", type=['png', 'jpg', 'jpeg'])
 
     # Create columns for better layout (Original Image | Processed Results)
-    col1, col2 = st.columns([2.5, 2])
+    col1, col2 = st.columns([2.3, 2.1])
 
     if input_image is not None:
         image = Image.open(input_image)
