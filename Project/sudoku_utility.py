@@ -135,7 +135,7 @@ def find_puzzle(image, debug=False):
     if debug:
         # Show the output warped image
         # display(Image.fromarray(cv2.resize(puzzle, (512, 512))))
-        cv2.imshow("Puzzle", cv2.resize(warped, (480, 480)))
+        cv2.imshow("Puzzle", cv2.resize(warped, (512, 512)))
         cv2.waitKey(0)
     return puzzle, warped
 
@@ -388,7 +388,7 @@ def ocr_sudoku(sudoku_board, debug=False):
             cv2.rectangle(sudoku_board, (x_min, y_min), (x_max, y_max), (0, 0, 255), 5)
 
         # display(Image.fromarray(cv2.resize(sudoku_board, (512, 512))))
-        cv2.imshow("OCR Sudoku", cv2.resize(sudoku_board, (480, 480)))
+        cv2.imshow("OCR Sudoku", cv2.resize(sudoku_board, (512, 512)))
         cv2.waitKey(0)
 
         puzzle.show()
