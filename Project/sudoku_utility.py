@@ -409,7 +409,7 @@ def insert_answer_2_board(sudoku_board, original_board, solution_board, debug=Fa
 
     font = cv2.FONT_HERSHEY_SIMPLEX
     font_scale = min(cell_width, cell_height) / 60 + 0.5
-    font_thickness = 3
+    font_thickness = 5
     text_color = (255, 119, 119)
 
     for row in range(9):
