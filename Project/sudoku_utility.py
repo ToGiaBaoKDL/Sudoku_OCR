@@ -175,7 +175,7 @@ def preprocess_board(image):
     blurred = cv2.GaussianBlur(image, (9, 9), 0)
 
     # Enhance contrast to make digits more prominent
-    contrast = cv2.convertScaleAbs(blurred, alpha=0.9, beta=0)
+    contrast = cv2.convertScaleAbs(blurred, alpha=1.1, beta=0)
 
     # Apply sharpening kernel to improve digit edges
     sharpen_kernel = np.array([
@@ -443,8 +443,8 @@ def insert_answer_2_board(sudoku_board, original_board, solution_board, debug=Fa
     cell_height = height // 9
 
     font = cv2.FONT_HERSHEY_SIMPLEX
-    font_scale = min(cell_width, cell_height) / 60 + 0.5
-    font_thickness = 5
+    font_scale = min(cell_width, cell_height) / 60 + 0.2
+    font_thickness = 3
     text_color = (0, 0, 255)
 
     for row in range(9):
