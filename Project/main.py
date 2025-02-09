@@ -1,18 +1,22 @@
 from sudoku_utility import *
 from datetime import datetime as dt
 import streamlit as st
-# from streamlit_paste_button import paste_image_button as pbutton
+from streamlit_paste_button import paste_image_button as pbutton
 import time
 import paddle
+# import os
+# os.system("pip uninstall opencv-python opencv-python-headless -y")
+# os.system("pip install opencv-python-headless")
+
 
 paddle.disable_signal_handler()
 
 def main():
-    start = dt.now()
-    # pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-
     # Set full-screen layout and page title
     st.set_page_config(page_title="Sudoku Solver", layout="wide")
+   
+    start = dt.now()
+    # pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
     # Add a stylish header
     st.markdown("<h1 style='text-align: center; color: #FF5733;'>🧩 Sudoku Solver</h1>", unsafe_allow_html=True)
@@ -31,38 +35,38 @@ def main():
     st.sidebar.write("You can either upload an image file or paste an image from the clipboard.")
     input_image = st.sidebar.file_uploader("Choose an image file", type=['png', 'jpg', 'jpeg'])
 
-    # paste_result = pbutton(
-    #     label="📋 Paste an image",
-    #     text_color="black",
-    #     background_color="pink",
-    #     hover_background_color="#FF5733",
-    #     errors='raise'
-    # )
+    paste_result = pbutton(
+        label="📋 Paste an image",
+        text_color="black",
+        background_color="pink",
+        hover_background_color="#FF5733",
+         errors='raise'
+    )
 
     # Restart Button
     if st.sidebar.button("🔄 Restart Solver"):
         st.rerun()
 
-    # # Handle image input source: either upload or paste
-    # uploaded_image = input_image is not None
-    # pasted_image = paste_result.image_data is not None
+    # Handle image input source: either upload or paste
+    uploaded_image = input_image is not None
+    pasted_image = paste_result.image_data is not None
 
-    # if uploaded_image and pasted_image:
-    #     st.warning("⚠️ Both an uploaded image and a pasted image detected. The uploaded image will be used.")
-    #     image_source = input_image  # Prioritize uploaded file
-    # elif uploaded_image:
-    #     image_source = input_image
-    # elif pasted_image:
-    #     image_source = pasted_image
-    # else:
-    #     image_source = None
+    if uploaded_image and pasted_image:
+        st.warning("⚠️ Both an uploaded image and a pasted image detected. The uploaded image will be used.")
+        image_source = input_image  # Prioritize uploaded file
+    elif uploaded_image:
+        image_source = input_image
+    elif pasted_image:
+        image_source = pasted_image
+    else:
+        image_source = None
 
-    # if image_source is not None:
-    #     if uploaded_image:
-    #         image = Image.open(image_source)  # Uploaded file needs to be opened
-    #     else:
-    #         image = image_source  # Pasted image is already an image
-    if input_image is not None:
+    if image_source is not None:
+        if uploaded_image:
+            image = Image.open(image_source)  # Uploaded file needs to be opened
+        else:
+            image = image_source  # Pasted image is already an image
+    
         image = Image.open(input_image)
         image = np.array(image)  # Convert to numpy array
 
@@ -78,10 +82,10 @@ def main():
         with st.spinner("🛠 Processing the Sudoku puzzle..."):
             try:
                 sudoku_result = sudoku_pipeline(image,
-                                                debug_find_puzzle=True,
+                                                debug_find_puzzle=False,
                                                 debug_process_grid=False,
-                                                debug_ocr=True,
-                                                debug_fill=True,
+                                                debug_ocr=False,
+                                                debug_fill=False,
                                                 preprocess=True,
                                                 process_grid=True,
                                                 ocr=True,
