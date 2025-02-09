@@ -332,7 +332,7 @@ def extract_sudoku_digit(sudoku_board, result_ocr):
             if text in ['Z', '2', '乙']:  
                 text = '2'
                 
-            if text in ['G', '6', 'b', '９']:  
+            if text in ['G', '6', 'b']:  
                 text = '6'
                 
             if text in ['q', 'g', '９']:  
@@ -381,6 +381,9 @@ def ocr_sudoku(sudoku_board, debug=False):
     height, width = sudoku_board.shape[:2]
     cell_width = width // 9
     cell_height = height // 9
+
+    # Initialize OCR engine
+    ocr = PaddleOCR(use_angle_cls=True, lang="ch")
     slices = {'horizontal_stride': cell_width, 'vertical_stride': cell_height, 'merge_x_thres': 0.05, 'merge_y_thres': 0.05}
     result_ocr = ocr.ocr(sudoku_board, cls=False, slice=slices)
     result_det = [detection[0] for line in result_ocr for detection in line]
@@ -393,6 +396,8 @@ def ocr_sudoku(sudoku_board, debug=False):
     
     flag = False
     if (len(filtered_cls) == 0) or ((num_zero_angle / len(filtered_cls) < 0.7) or (len(result_det) < 17)):
+        # Initialize OCR engine
+        ocr = PaddleOCR(use_angle_cls=True, lang="ch")
         sudoku_board = cv2.rotate(sudoku_board, cv2.ROTATE_180)
         result_ocr = ocr.ocr(sudoku_board, cls=False, slice=slices)
         result_det = [detection[0] for line in result_ocr for detection in line]
