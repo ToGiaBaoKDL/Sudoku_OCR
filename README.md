@@ -28,6 +28,9 @@ This project is an **OCR-based Sudoku solver** that leverages **PaddleOCR** and 
 ✅ Try to **capture a clear, well-lit image** to improve OCR performance.  
 ✅ Avoid **angled or distorted views** for better board detection.
 
+## 🌐 Try It Online
+Test the application directly using this link: [🔗 Live Demo](https://tgb-sudokuocr.streamlit.app/)
+
 ## 🛠️ Dependencies
 
 - Python
@@ -41,5 +44,3 @@ To test the application, you can use the provided Streamlit app by running the f
 ```bash
 streamlit run Project/main.py
 ```
-## 🌐 Try It Online
-Test the application directly using this link: [🔗 Live Demo](https://tgb-sudokuocr.streamlit.app/)
