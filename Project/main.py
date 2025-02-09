@@ -14,8 +14,7 @@ if __name__ == '__main__':
     # Add a stylish header
     st.markdown("<h1 style='text-align: center; color: #FF5733;'>🧩 Sudoku Solver</h1>", unsafe_allow_html=True)
     st.markdown(
-        "<p style='text-align: center; font-size: 18px; color: pink;'>Upload an image of a Sudoku puzzle and let AI "
-        "solve it! 😊</p>",
+        "<p style='text-align: center; font-size: 18px; color: pink;'>Upload an image of a Sudoku puzzle, and we’ll try to solve it for you! 😊</p>",
         unsafe_allow_html=True)
 
     # Sidebar with instructions
