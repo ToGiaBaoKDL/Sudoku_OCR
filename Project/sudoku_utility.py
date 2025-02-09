@@ -388,7 +388,7 @@ def ocr_sudoku(sudoku_board, debug=False):
     result_ocr = ocr.ocr(sudoku_board, cls=False, slice=slices)
     result_det = [detection[0] for line in result_ocr for detection in line]
     result_rec = [(sublist[1][0], sublist[1][1]) for group in result_ocr for sublist in group]
-    result_cls = extract_angle_orientation(sudoku_board, result_ocr, debug=False)
+    result_cls = extract_angle_orientation(sudoku_board, result_ocr)
     digits = extract_sudoku_digit(sudoku_board, result_ocr)
     
     filtered_cls = [item for item in result_cls if item[2] > 0.68]
