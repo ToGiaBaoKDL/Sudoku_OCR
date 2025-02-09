@@ -39,5 +39,7 @@ This project is an **OCR-based Sudoku solver** that leverages **PaddleOCR** and 
 To test the application, you can use the provided Streamlit app by running the following command:
 
 ```bash
-streamlit run app.py
+streamlit run Project/main.py
 ```
+## 🌐 Try It Online
+Test the application directly using this link: [🔗 Live Demo](https://tgb-sudokuocr.streamlit.app/)
