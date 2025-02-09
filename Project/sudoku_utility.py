@@ -126,7 +126,7 @@ def find_puzzle(image, debug=False):
     # Transform the puzzle
     puzzle = four_point_transform(image, puzzle_contour.reshape(4, 2))
     puzzle = cv2.cvtColor(puzzle, cv2.COLOR_BGR2GRAY)
-    puzzle = cv2.resize(puzzle, (4500, 4500))
+    puzzle = cv2.resize(puzzle, (3600, 3600))
     warped = four_point_transform(image, puzzle_contour.reshape(4, 2))
     if debug:
         # Show the output warped image
@@ -290,7 +290,7 @@ def extract_angle_orientation(board, result_ocr, padding=5):
             roi = board[y_min:y_max, x_min:x_max]
             
             # Initialize OCR engine
-            ocr = PaddleOCR(use_angle_cls=True, lang="ch")
+            ocr = PaddleOCR(use_angle_cls=True, lang="ch", rec_batch_num=2, det_db_box_thresh=0.35, enable_mkldnn=True)
             # Extract classification result for the specific ROI
             cls_result = ocr.ocr(roi, cls=True, det=False, rec=False)
 
@@ -383,7 +383,7 @@ def ocr_sudoku(sudoku_board, debug=False):
     cell_height = height // 9
 
     # Initialize OCR engine
-    ocr = PaddleOCR(use_angle_cls=True, lang="ch")
+    ocr = PaddleOCR(use_angle_cls=True, lang="ch", det_db_box_thresh=0.35, rec_batch_num=2, enable_mkldnn=True)
     slices = {'horizontal_stride': cell_width, 'vertical_stride': cell_height, 'merge_x_thres': 0.05, 'merge_y_thres': 0.05}
     result_ocr = ocr.ocr(sudoku_board, cls=False, slice=slices)
     result_det = [detection[0] for line in result_ocr for detection in line]
@@ -397,7 +397,7 @@ def ocr_sudoku(sudoku_board, debug=False):
     flag = False
     if (len(filtered_cls) == 0) or ((num_zero_angle / len(filtered_cls) < 0.7) or (len(result_det) < 17)):
         # Initialize OCR engine
-        ocr = PaddleOCR(use_angle_cls=True, lang="ch")
+        ocr = PaddleOCR(use_angle_cls=True, lang="ch", det_db_box_thresh=0.35, rec_batch_num=2, enable_mkldnn=True)
         sudoku_board = cv2.rotate(sudoku_board, cv2.ROTATE_180)
         result_ocr = ocr.ocr(sudoku_board, cls=False, slice=slices)
         result_det = [detection[0] for line in result_ocr for detection in line]
