@@ -305,13 +305,14 @@ def extract_sudoku_digit(sudoku_board, result_ocr):
     height, width = sudoku_board.shape[:2]
     cell_width = width // 9
     cell_height = height // 9
-    min_box_area = (cell_width * cell_height) * 0.1  # Set a threshold at 10% of a cell's area
-    min_box_height = cell_height * 0.35  # Skip boxes shorter than 20% of a cell's height
-
+    min_box_area = (cell_width * cell_height) * 0.04  # Set a threshold at 4% of a cell's area
+    min_box_height = cell_height * 0.15  # Skip boxes shorter than 15% of a cell's height
+    aspect_ratio_threshold = 0.8  # Skip if height/width < 0.8
+    
     # Khởi tạo ma trận Sudoku 9x9
     digits = [[0 for _ in range(9)] for _ in range(9)]
     cell_counts = [[0 for _ in range(9)] for _ in range(9)]  # Track bounding box count per cell
-
+    
     for line in result_ocr:
         for bbox, info in line:
             text, score = info
@@ -319,14 +320,16 @@ def extract_sudoku_digit(sudoku_board, result_ocr):
             # Calculate bounding box area, width, and height
             x_min, y_min = bbox[0]
             x_max, y_max = bbox[2]
-            box_area = (x_max - x_min) * (y_max - y_min)
+            box_width = x_max - x_min
             box_height = y_max - y_min
+            box_area = box_width * box_height
 
             # Compute the bounding box center
             x_center = int((x_min + x_max) / 2)
             y_center = int((y_min + y_max) / 2)
 
-            row = min(y_center // cell_height, 8)
+            # Tìm vị trí hàng, cột tương ứng trên Sudoku board
+            row = min(y_center // cell_height, 8)  # Giới hạn tối đa index là 8
             col = min(x_center // cell_width, 8)
 
             # Increment the cell's bounding box count
@@ -340,11 +343,16 @@ def extract_sudoku_digit(sudoku_board, result_ocr):
             # Ignore bounding boxes that are too small, too narrow, or too short
             if box_area < min_box_area or box_height < min_box_height:
                 continue  # Skip this box
+                
+            # Skip bounding boxes where height-to-width ratio is too small
+            if box_height / box_width < aspect_ratio_threshold:
+                continue  # Skip this box
+                
+            # Dùng regex để chỉ lấy số hợp lệ
+            number = re.search(r'\d', text)  # Tìm số đầu tiên xuất hiện
+            digit = int(number.group()) if number else 0  # Nếu có số, lấy số đó; nếu không, trả về 0
 
-            number = re.search(r'\d', text)
-            digit = int(number.group()) if number else 0
-
-            digits[row][col] = digit
+            digits[row][col] = digit  # Gán số vào mảng
 
     return digits
 
