@@ -5,3 +5,5 @@ libsm6
 libxext6  
 libxrender-dev  
 ffmpeg  
+libxcb-util0
+libxcb-xinerama0
