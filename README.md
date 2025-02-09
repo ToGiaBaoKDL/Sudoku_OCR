@@ -17,6 +17,9 @@ This project is an **OCR-based Sudoku solver** that leverages **PaddleOCR** and 
 5. **Return the Final Image** 📸
    - Overlays the solved numbers back onto the original board image.
 
+## 🌐 Try It Online
+Test the application directly using this link: [🔗 Live Demo](https://tgb-sudokuocr.streamlit.app/)
+
 ## ⚠️ Known Issues
 
 - ❌ **Handwritten digits** are not recognized accurately.
@@ -27,9 +30,6 @@ This project is an **OCR-based Sudoku solver** that leverages **PaddleOCR** and 
 ✅ Ensure the **Sudoku board is fully visible** in the image.  
 ✅ Try to **capture a clear, well-lit image** to improve OCR performance.  
 ✅ Avoid **angled or distorted views** for better board detection.
-
-## 🌐 Try It Online
-Test the application directly using this link: [🔗 Live Demo](https://tgb-sudokuocr.streamlit.app/)
 
 ## 🛠️ Dependencies
 
