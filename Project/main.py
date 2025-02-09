@@ -3,12 +3,13 @@ from datetime import datetime as dt
 import streamlit as st
 from streamlit_paste_button import paste_image_button as pbutton
 import time
+from PyQt5.QtWidgets import QApplication
 
 import os
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 
 
-if __name__ == '__main__':
+def main():
     start = dt.now()
     # pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
@@ -117,3 +118,7 @@ if __name__ == '__main__':
     st.markdown("<hr>", unsafe_allow_html=True)
     st.markdown("<p style='text-align: center; color: gray;'>Developed with ❤️ using OpenCV & Streamlit</p>",
                 unsafe_allow_html=True)
+
+
+if __name__ == "__main__":
+    main()
