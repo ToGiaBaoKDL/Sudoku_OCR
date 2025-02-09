@@ -21,6 +21,13 @@ def find_puzzle_contour(image, debug=False):
     # Apply multiple preprocessing techniques to handle different image conditions
     preprocessed_images = []
 
+    # 3. Add contrast enhancement
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+    enhanced = clahe.apply(gray)
+    blurred3 = cv2.GaussianBlur(enhanced, (9, 9), 0)
+    thresh3 = cv2.adaptiveThreshold(blurred3, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
+    preprocessed_images.append(cv2.bitwise_not(thresh3))
+
     # 1. Standard preprocessing
     blurred = cv2.GaussianBlur(gray, (9, 9), 0)
     thresh1 = cv2.adaptiveThreshold(blurred, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
@@ -30,13 +37,6 @@ def find_puzzle_contour(image, debug=False):
     blurred2 = cv2.GaussianBlur(gray, (7, 7), 0)
     thresh2 = cv2.adaptiveThreshold(blurred2, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 15, 5)
     preprocessed_images.append(cv2.bitwise_not(thresh2))
-
-    # 3. Add contrast enhancement
-    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
-    enhanced = clahe.apply(gray)
-    blurred3 = cv2.GaussianBlur(enhanced, (9, 9), 0)
-    thresh3 = cv2.adaptiveThreshold(blurred3, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
-    preprocessed_images.append(cv2.bitwise_not(thresh3))
 
     # 4. Canny Edge Detection
     edges = cv2.Canny(gray, 50, 150)
@@ -323,7 +323,7 @@ def extract_sudoku_digit(sudoku_board, result_ocr):
             if text in ['了', 'T', '？', '?']:  
                 text = '7'
                 
-            if text in ['l', '|', '!', 'L', '一']:  
+            if text in ['l', '|', '!', 'L', '一', 'I']:  
                 text = '1'
                 
             if text in ['B', 'ß', '８']:  
