@@ -37,6 +37,7 @@ if __name__ == '__main__':
         text_color="black",
         background_color="pink",
         hover_background_color="#FF5733",
+        errors='raise'
     )
 
     # Restart Button
@@ -45,7 +46,7 @@ if __name__ == '__main__':
 
     # Handle image input source: either upload or paste
     uploaded_image = input_image is not None
-    pasted_image = paste_result is not None
+    pasted_image = paste_result.image_data is not None
 
     if uploaded_image and pasted_image:
         st.warning("⚠️ Both an uploaded image and a pasted image detected. The uploaded image will be used.")
@@ -53,7 +54,7 @@ if __name__ == '__main__':
     elif uploaded_image:
         image_source = input_image
     elif pasted_image:
-        image_source = paste_result.image_data
+        image_source = pasted_image
     else:
         image_source = None
 
