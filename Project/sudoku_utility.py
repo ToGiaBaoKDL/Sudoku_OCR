@@ -305,7 +305,7 @@ def extract_sudoku_digit(sudoku_board, result_ocr):
     height, width = sudoku_board.shape[:2]
     cell_width = width // 9
     cell_height = height // 9
-    min_box_area = (cell_width * cell_height) * 0.04  # Set a threshold at 4% of a cell's area
+    min_box_area = (cell_width * cell_height) * 0.03  # Set a threshold at 3% of a cell's area
     min_box_height = cell_height * 0.15  # Skip boxes shorter than 15% of a cell's height
     aspect_ratio_threshold = 0.8  # Skip if height/width < 0.8
     
