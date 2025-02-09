@@ -126,7 +126,7 @@ def find_puzzle(image, debug=False):
     # Transform the puzzle
     puzzle = four_point_transform(image, puzzle_contour.reshape(4, 2))
     puzzle = cv2.cvtColor(puzzle, cv2.COLOR_BGR2GRAY)
-    puzzle = cv2.resize(puzzle, (3600, 3600))
+    puzzle = cv2.resize(puzzle, (4000, 4000))
     warped = four_point_transform(image, puzzle_contour.reshape(4, 2))
     if debug:
         # Show the output warped image
