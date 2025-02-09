@@ -14,10 +14,6 @@ from PIL import Image
 import time
 
 
-# Initialize OCR engine
-ocr = PaddleOCR(use_angle_cls=True, lang="ch")
-
-
 def find_puzzle_contour(image, debug=False):
     # Convert the image to grayscale
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -355,6 +351,9 @@ def ocr_sudoku(sudoku_board, debug=False):
     height, width = sudoku_board.shape[:2]
     cell_width = width // 9
     cell_height = height // 9
+
+    # Initialize OCR engine
+    ocr = PaddleOCR(use_angle_cls=True, lang="ch")
     slices = {'horizontal_stride': cell_width, 'vertical_stride': cell_height, 'merge_x_thres': 0.05,
               'merge_y_thres': 0.05}
     result_ocr = ocr.ocr(sudoku_board, cls=False, slice=slices)
@@ -368,6 +367,8 @@ def ocr_sudoku(sudoku_board, debug=False):
 
     if (len(filtered_cls) == 0) or ((num_zero_angle / len(filtered_cls) < 0.7) or (len(result_det) < 17)):
         sudoku_board = cv2.rotate(sudoku_board, cv2.ROTATE_180)
+        # Initialize OCR engine
+        ocr = PaddleOCR(use_angle_cls=True, lang="ch")
         result_ocr = ocr.ocr(sudoku_board, cls=False, slice=slices)
         result_det = [detection[0] for line in result_ocr for detection in line]
         result_rec = [(sublist[1][0], sublist[1][1]) for group in result_ocr for sublist in group]
