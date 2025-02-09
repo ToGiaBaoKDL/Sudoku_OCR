@@ -288,7 +288,9 @@ def extract_angle_orientation(board, result_ocr, padding=5):
 
             # Crop region of interest (ROI)
             roi = board[y_min:y_max, x_min:x_max]
-
+            
+            # Initialize OCR engine
+            ocr = PaddleOCR(use_angle_cls=True, lang="ch")
             # Extract classification result for the specific ROI
             cls_result = ocr.ocr(roi, cls=True, det=False, rec=False)
 
