@@ -290,7 +290,7 @@ def extract_angle_orientation(board, result_ocr, padding=5):
             roi = board[y_min:y_max, x_min:x_max]
             
             # Initialize OCR engine
-            ocr = PaddleOCR(use_angle_cls=True, lang="ch", rec_batch_num=2, det_db_box_thresh=0.3)
+            ocr = PaddleOCR(use_angle_cls=True, lang="ch", det_db_box_thresh=0.3)
             # Extract classification result for the specific ROI
             cls_result = ocr.ocr(roi, cls=True, det=False, rec=False)
 
@@ -320,7 +320,7 @@ def extract_sudoku_digit(sudoku_board, result_ocr):
             if text in ['S', 's', '$']:  
                 text = '5' 
                 
-            if text in ['了', 'T', '？']:  
+            if text in ['了', 'T', '？', '?']:  
                 text = '7'
                 
             if text in ['l', '|', '!', 'L', '一']:  
@@ -383,7 +383,7 @@ def ocr_sudoku(sudoku_board, debug=False):
     cell_height = height // 9
 
     # Initialize OCR engine
-    ocr = PaddleOCR(use_angle_cls=True, lang="ch", det_db_box_thresh=0.3, rec_batch_num=2)
+    ocr = PaddleOCR(use_angle_cls=True, lang="ch", det_db_box_thresh=0.3)
     slices = {'horizontal_stride': cell_width, 'vertical_stride': cell_height, 'merge_x_thres': 0.05, 'merge_y_thres': 0.05}
     result_ocr = ocr.ocr(sudoku_board, cls=False, slice=slices)
     result_det = [detection[0] for line in result_ocr for detection in line]
@@ -397,7 +397,7 @@ def ocr_sudoku(sudoku_board, debug=False):
     flag = False
     if (len(filtered_cls) == 0) or ((num_zero_angle / len(filtered_cls) < 0.7) or (len(result_det) < 17)):
         # Initialize OCR engine
-        ocr = PaddleOCR(use_angle_cls=True, lang="ch", det_db_box_thresh=0.3, rec_batch_num=2)
+        ocr = PaddleOCR(use_angle_cls=True, lang="ch", det_db_box_thresh=0.3)
         sudoku_board = cv2.rotate(sudoku_board, cv2.ROTATE_180)
         result_ocr = ocr.ocr(sudoku_board, cls=False, slice=slices)
         result_det = [detection[0] for line in result_ocr for detection in line]
