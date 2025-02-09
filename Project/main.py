@@ -4,6 +4,10 @@ import streamlit as st
 from streamlit_paste_button import paste_image_button as pbutton
 import time
 
+import os
+os.environ["QT_QPA_PLATFORM"] = "offscreen"
+
+
 if __name__ == '__main__':
     start = dt.now()
     # pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
