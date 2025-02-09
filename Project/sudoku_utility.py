@@ -126,7 +126,7 @@ def find_puzzle(image, debug=False):
     # Transform the puzzle
     puzzle = four_point_transform(image, puzzle_contour.reshape(4, 2))
     puzzle = cv2.cvtColor(puzzle, cv2.COLOR_BGR2GRAY)
-    puzzle = cv2.resize(puzzle, (3150, 3150))
+    puzzle = cv2.resize(puzzle, (4500, 4500))
     warped = four_point_transform(image, puzzle_contour.reshape(4, 2))
     if debug:
         # Show the output warped image
@@ -305,7 +305,7 @@ def extract_sudoku_digit(sudoku_board, result_ocr):
     height, width = sudoku_board.shape[:2]
     cell_width = width // 9
     cell_height = height // 9
-    min_box_area = (cell_width * cell_height) * 0.03  # Set a threshold at 3% of a cell's area
+    min_box_area = (cell_width * cell_height) * 0.04  # Set a threshold at 4% of a cell's area
     min_box_height = cell_height * 0.15  # Skip boxes shorter than 15% of a cell's height
     aspect_ratio_threshold = 0.8  # Skip if height/width < 0.8
     
@@ -316,6 +316,27 @@ def extract_sudoku_digit(sudoku_board, result_ocr):
     for line in result_ocr:
         for bbox, info in line:
             text, score = info
+            
+            if text in ['S', 's', '$']:  
+                text = '5' 
+                
+            if text in ['了', 'T', '？']:  
+                text = '7'
+                
+            if text in ['l', '|', '!', 'L', '一']:  
+                text = '1'
+                
+            if text in ['B', 'ß', '８']:  
+                text = '8'
+                
+            if text in ['Z', '2', '乙']:  
+                text = '2'
+                
+            if text in ['G', '6', 'b', '９']:  
+                text = '6'
+                
+            if text in ['q', 'g', '９']:  
+                text = '9'
 
             # Calculate bounding box area, width, and height
             x_min, y_min = bbox[0]
@@ -348,11 +369,10 @@ def extract_sudoku_digit(sudoku_board, result_ocr):
             if box_height / box_width < aspect_ratio_threshold:
                 continue  # Skip this box
                 
-            # Dùng regex để chỉ lấy số hợp lệ
-            number = re.search(r'\d', text)  # Tìm số đầu tiên xuất hiện
-            digit = int(number.group()) if number else 0  # Nếu có số, lấy số đó; nếu không, trả về 0
+            number = re.search(r'\d', text)  
+            digit = int(number.group()) if number else 0
 
-            digits[row][col] = digit  # Gán số vào mảng
+            digits[row][col] = digit  
 
     return digits
 
@@ -361,51 +381,50 @@ def ocr_sudoku(sudoku_board, debug=False):
     height, width = sudoku_board.shape[:2]
     cell_width = width // 9
     cell_height = height // 9
-
-    # Initialize OCR engine
-    ocr = PaddleOCR(use_angle_cls=True, lang="ch")
-    slices = {'horizontal_stride': cell_width, 'vertical_stride': cell_height, 'merge_x_thres': 0.05,
-              'merge_y_thres': 0.05}
+    slices = {'horizontal_stride': cell_width, 'vertical_stride': cell_height, 'merge_x_thres': 0.05, 'merge_y_thres': 0.05}
     result_ocr = ocr.ocr(sudoku_board, cls=False, slice=slices)
     result_det = [detection[0] for line in result_ocr for detection in line]
     result_rec = [(sublist[1][0], sublist[1][1]) for group in result_ocr for sublist in group]
-    result_cls = extract_angle_orientation(sudoku_board, result_ocr)
+    result_cls = extract_angle_orientation(sudoku_board, result_ocr, debug=False)
     digits = extract_sudoku_digit(sudoku_board, result_ocr)
-
+    
     filtered_cls = [item for item in result_cls if item[2] > 0.68]
     num_zero_angle = sum(1 for item in filtered_cls if '0' in item)
-
+    
+    flag = False
     if (len(filtered_cls) == 0) or ((num_zero_angle / len(filtered_cls) < 0.7) or (len(result_det) < 17)):
         sudoku_board = cv2.rotate(sudoku_board, cv2.ROTATE_180)
-        # Initialize OCR engine
-        ocr = PaddleOCR(use_angle_cls=True, lang="ch")
         result_ocr = ocr.ocr(sudoku_board, cls=False, slice=slices)
         result_det = [detection[0] for line in result_ocr for detection in line]
         result_rec = [(sublist[1][0], sublist[1][1]) for group in result_ocr for sublist in group]
         digits = extract_sudoku_digit(sudoku_board, result_ocr)
+        flag = True
+            
 
     # Tạo bảng sudoku
     puzzle = Sudoku(3, 3, digits)
 
     if debug:
+        for line in result_ocr[0]:
+            print(line[1])
+            
         for box in result_det:
             box = np.array(box).astype(np.int32)
-            x_min = min(box[:, 0])
-            y_min = min(box[:, 1])
-            x_max = max(box[:, 0])
-            y_max = max(box[:, 1])
+            xmin = min(box[:, 0])
+            ymin = min(box[:, 1])
+            xmax = max(box[:, 0])
+            ymax = max(box[:, 1])
 
             # Draw bounding box (red color in BGR)
-            cv2.rectangle(sudoku_board, (x_min, y_min), (x_max, y_max), (0, 0, 255), 5)
+            cv2.rectangle(sudoku_board, (xmin, ymin), (xmax, ymax), (0, 0, 255), 5)
 
-        # display(Image.fromarray(cv2.resize(sudoku_board, (512, 512))))
-        cv2.imshow("OCR Sudoku", cv2.resize(sudoku_board, (512, 512)))
-        cv2.waitKey(0)
+        display(Image.fromarray(cv2.resize(sudoku_board, (512, 512))))
 
+        print("Bài toán Sudoku:")
         puzzle.show()
 
-    return puzzle
-
+    return puzzle, flag
+    
 
 def solve_sudoku(puzzle):
     solution = puzzle.solve()
@@ -421,7 +440,7 @@ def insert_answer_2_board(sudoku_board, original_board, solution_board, debug=Fa
     font = cv2.FONT_HERSHEY_SIMPLEX
     font_scale = min(cell_width, cell_height) / 60 + 0.5
     font_thickness = 5
-    text_color = (255, 119, 119)
+    text_color = (0, 0, 255)
 
     for row in range(9):
         for col in range(9):
@@ -437,48 +456,50 @@ def insert_answer_2_board(sudoku_board, original_board, solution_board, debug=Fa
                 cv2.putText(final_board, number, (text_x, text_y), font, font_scale, text_color, font_thickness)
 
     if debug:
-        # display(Image.fromarray(cv2.resize(final_board, (1024, 1024))))
         cv2.imshow("Final answer", cv2.resize(final_board, (512, 512)))
         cv2.waitKey(0)
 
     return final_board
 
 
-def sudoku_pipeline(image, debug_find_puzzle=False, debug_process_grid=False, debug_ocr=False, debug_fill=False,
+def sudoku_pipeline(image, debug_find_puzzle=False, debug_process_grid=False, debug_ocr=False, debug_fill=False, 
                     preprocess=True, process_grid=True, ocr=True, solve=True, fill=True):
-    # Step 1: Locate the sudoku board
+    # Bước 1: Tìm bảng Sudoku trong ảnh
     sudoku_board_gray, sudoku_board_rgb = find_puzzle(image, debug=debug_find_puzzle)
     sudoku_board_gray, sudoku_board_rgb = get_right_perspective(sudoku_board_gray, sudoku_board_rgb)
 
-    # Step 2: Preprocessing the sudoku board
+    # Bước 2: Tiền xử lý bảng Sudoku
     if preprocess:
         sudoku_board_gray_clean = preprocess_board(sudoku_board_gray)
     else:
         sudoku_board_gray_clean = sudoku_board_gray
 
-    # Step 3: Preprocess each sudoku cell for better OCR result
+    # Bước 3: Xử lý lưới Sudoku
     if process_grid:
         sudoku_board_gray_clean = process_sudoku_grid(sudoku_board_gray_clean, debug=debug_process_grid)
 
-    # Step 4: Extract number in each cell into a sudoku puzzle
+    # Bước 4: Nhận dạng ký tự (OCR) để lấy bài toán Sudoku
     if ocr:
-        puzzle = ocr_sudoku(sudoku_board_gray_clean, debug=debug_ocr)
+        puzzle, flag = ocr_sudoku(sudoku_board_gray_clean, debug=debug_ocr)
+        if flag:
+            sudoku_board_gray = cv2.rotate(sudoku_board_gray, cv2.ROTATE_180)
+            sudoku_board_rgb = cv2.rotate(sudoku_board_rgb, cv2.ROTATE_180)
     else:
         puzzle = None
 
-    # Step 5: Solve the sudoku
+    # Bước 5: Giải bài toán Sudoku
     if solve and puzzle is not None:
         solution = solve_sudoku(puzzle)
     else:
         solution = None
-
-    # Step 6: Fill in the sudoku board with the answer
+        
+    # Bước 6: Điền số trở lại bảng Sudoku gốc
     if fill and solution is not None:
         filled = insert_answer_2_board(sudoku_board_rgb, puzzle.board, solution.board, debug=debug_fill)
     else:
         filled = None
 
-    time.sleep(2)
+    time.sleep(1)
     # Trả về kết quả
     return {
         'sudoku_board_rgb': sudoku_board_rgb,
