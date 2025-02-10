@@ -74,10 +74,10 @@ def main():
 
         try:
             sudoku_result = sudoku_pipeline(image,
-                                            debug_find_puzzle=True,
+                                            debug_find_puzzle=False,
                                             debug_process_grid=False,
-                                            debug_ocr=True,
-                                            debug_fill=True,
+                                            debug_ocr=False,
+                                            debug_fill=False,
                                             preprocess=True,
                                             process_grid=True,
                                             ocr=True,
