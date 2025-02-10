@@ -397,7 +397,7 @@ def ocr_sudoku(sudoku_board, debug=False):
     flag = False
     if (len(filtered_cls) == 0) or ((num_zero_angle / len(filtered_cls) < 0.7) or (len(result_det) < 17)):
         # Initialize OCR engine
-        ocr = PaddleOCR(use_angle_cls=True, lang="ch", det_db_box_thresh=0.3)
+        # ocr = PaddleOCR(use_angle_cls=True, lang="ch", det_db_box_thresh=0.3)
         sudoku_board = cv2.rotate(sudoku_board, cv2.ROTATE_180)
         result_ocr = ocr.ocr(sudoku_board, cls=False, slice=slices)
         result_det = [detection[0] for line in result_ocr for detection in line]
