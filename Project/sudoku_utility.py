@@ -379,7 +379,7 @@ def extract_sudoku_digit(sudoku_board, result_ocr):
     return digits
 
 
-def ocr_sudoku(sudoku_board, debug=False):
+def ocr_sudoku(sudoku_board, angle_orientation=False, debug=False):
     height, width = sudoku_board.shape[:2]
     cell_width = width // 9
     cell_height = height // 9
@@ -389,25 +389,22 @@ def ocr_sudoku(sudoku_board, debug=False):
     slices = {'horizontal_stride': cell_width, 'vertical_stride': cell_height, 'merge_x_thres': 0.05, 'merge_y_thres': 0.05}
     result_ocr = ocr.ocr(sudoku_board, cls=False, slice=slices)
     result_det = [detection[0] for line in result_ocr for detection in line]
-    result_rec = [(sublist[1][0], sublist[1][1]) for group in result_ocr for sublist in group]
-    result_cls = extract_angle_orientation(sudoku_board, result_ocr)
     digits = extract_sudoku_digit(sudoku_board, result_ocr)
     
-    filtered_cls = [item for item in result_cls if item[2] > 0.68]
-    num_zero_angle = sum(1 for item in filtered_cls if '0' in item)
-    
     flag = False
-    if (len(filtered_cls) == 0) or ((num_zero_angle / len(filtered_cls) < 0.7) or (len(result_det) < 17)):
-        # Initialize OCR engine
-        # ocr = PaddleOCR(use_angle_cls=True, lang="ch", det_db_box_thresh=0.3)
-        sudoku_board = cv2.rotate(sudoku_board, cv2.ROTATE_180)
-        result_ocr = ocr.ocr(sudoku_board, cls=False, slice=slices)
-        result_det = [detection[0] for line in result_ocr for detection in line]
-        result_rec = [(sublist[1][0], sublist[1][1]) for group in result_ocr for sublist in group]
-        digits = extract_sudoku_digit(sudoku_board, result_ocr)
-        flag = True
-            
+    if angle_orientation:
+        result_cls = extract_angle_orientation(sudoku_board, result_ocr)
 
+        filtered_cls = [item for item in result_cls if item[2] > 0.68]
+        num_zero_angle = sum(1 for item in filtered_cls if '0' in item)
+
+        if (len(filtered_cls) == 0) or ((num_zero_angle / len(filtered_cls) < 0.6) or (len(result_det) < 17)):
+            sudoku_board = cv2.rotate(sudoku_board, cv2.ROTATE_180)
+            result_ocr = ocr.ocr(sudoku_board, cls=False, slice=slices)
+            result_det = [detection[0] for line in result_ocr for detection in line]
+            digits = extract_sudoku_digit(sudoku_board, result_ocr)
+            flag = True
+            
     # Tạo bảng sudoku
     puzzle = Sudoku(3, 3, digits)
 
@@ -475,7 +472,7 @@ def insert_answer_2_board(sudoku_board, original_board, solution_board, debug=Fa
 
 
 def sudoku_pipeline(image, debug_find_puzzle=False, debug_process_grid=False, debug_ocr=False, debug_fill=False,
-                    preprocess=True, process_grid=True, ocr=True, solve=True, fill=True):
+                    preprocess=True, process_grid=True, ocr=True, angle_orientation=False, solve=True, fill=True):
     progress_bar = st.progress(0)
     status_text = st.empty()
 
@@ -505,7 +502,7 @@ def sudoku_pipeline(image, debug_find_puzzle=False, debug_process_grid=False, de
     # Step 4: OCR Extraction
     status_text.text("🔢 Step 4: Extracting numbers with OCR...")
     if ocr:
-        puzzle, flag = ocr_sudoku(sudoku_board_gray_clean, debug=debug_ocr)
+        puzzle, flag = ocr_sudoku(sudoku_board_gray_clean, angle_orientation=angle_orientation, debug=debug_ocr)
         if flag:
             sudoku_board_gray = cv2.rotate(sudoku_board_gray, cv2.ROTATE_180)
             sudoku_board_rgb = cv2.rotate(sudoku_board_rgb, cv2.ROTATE_180)
@@ -534,7 +531,7 @@ def sudoku_pipeline(image, debug_find_puzzle=False, debug_process_grid=False, de
 
     st.balloons()
     st.success("🎉 Sudoku Solved Successfully! 🎉")
-    
+
     # Remove progress bar after completion
     progress_bar.empty()
     status_text.text("")
@@ -546,6 +543,5 @@ def sudoku_pipeline(image, debug_find_puzzle=False, debug_process_grid=False, de
         'puzzle': puzzle,
         'solution': filled
     }
-
 
 
