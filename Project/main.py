@@ -1,18 +1,15 @@
 from sudoku_utility import *
 from datetime import datetime as dt
 import streamlit as st
-from streamlit_paste_button import paste_image_button as pbutton
-import time
-import paddle
+from streamlit_paste_button import paste_image_button
 
-paddle.disable_signal_handler()
 
-def main():
+if __name__ == '__main__':
+    start = dt.now()
+    pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+
     # Set full-screen layout and page title
     st.set_page_config(page_title="Sudoku Solver", layout="wide")
-   
-    start = dt.now()
-    # pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
     # Add a stylish header
     st.markdown("<h1 style='text-align: center; color: #FF5733;'>🧩 Sudoku Solver</h1>", unsafe_allow_html=True)
@@ -22,7 +19,7 @@ def main():
         unsafe_allow_html=True)
 
     # Sidebar with information and image upload options
-    st.sidebar.markdown("### ℹ️ About This Project")
+    st.sidebar.markdown("## ℹ️ About This Project")
     st.sidebar.info("This project is an OCR-based Sudoku solver that leverages PaddleOCR and OpenCV "
                     "for image processing. It extracts numbers from a Sudoku puzzle image, solves the puzzle, "
                     "and returns the completed Sudoku board.")
@@ -31,21 +28,45 @@ def main():
     st.sidebar.write("You can either upload an image file or paste an image from the clipboard.")
     input_image = st.sidebar.file_uploader("Choose an image file", type=['png', 'jpg', 'jpeg'])
 
-    paste_result = pbutton(
-        label="📋 Paste an image",
-        text_color="black",
-        background_color="pink",
-        hover_background_color="#FF5733",
-         errors='raise'
-    )
+    col_paste, col_restart = st.columns([0.25, 1])
+    with col_paste:
+        paste_result = paste_image_button(
+            label="🎨 Paste an Image",
+            text_color="black",
+            background_color="#81C784",
+            hover_background_color="#66A76F",
+        )
+    with col_restart:
+        if st.button("🔄 Restart Solver", key="restart_solver", help="Click to reset the solver", type="secondary"):
+            st.rerun()
 
-    # Restart Button
-    if st.sidebar.button("🔄 Restart Solver"):
-        st.rerun()
+    # Sidebar - Processing Options
+    st.markdown("#### ⚙️ Processing Options")
+
+    setting_col1, setting_col2 = st.columns([0.9, 1])
+    with setting_col1:
+        # Expander for Preprocessing Grid
+        with st.expander("🔧 Preprocess Grid Before OCR?"):
+            st.markdown(
+                "✔️ **What it does:** Enhances grid detection before OCR.\n\n"
+                "🔹 **Pros:** Can improve recognition by refining the grid.\n\n"
+                "⚠️ **Cons:** Not ideal for blurry images—it may distort details."
+            )
+        preprocess_grid = st.checkbox("Enable Preprocessing", value=True)
+
+    with setting_col2:
+        # Expander for Auto-Detect & Verify Orientation
+        with st.expander("🌀 Auto-Detect & Verify Orientation?"):
+            st.markdown(
+                "️️✔️ **What it does:** Checks and corrects Sudoku board orientation **after OCR**.\n\n"
+                "🔹 **Pros:** Ensures better accuracy for rotated or tilted images.\n\n"
+                "⚠️ **Cons:** Takes slightly longer to process."
+            )
+        correct_rotation = st.checkbox("Enable Orientation Verification", value=False)
 
     # Handle image input source: either upload or paste
     uploaded_image = input_image is not None
-    pasted_image = paste_result.image_data is not None
+    pasted_image = paste_result is not None
 
     if uploaded_image and pasted_image:
         st.warning("⚠️ Both an uploaded image and a pasted image detected. The uploaded image will be used.")
@@ -74,18 +95,20 @@ def main():
 
         try:
             sudoku_result = sudoku_pipeline(image,
-                                            debug_find_puzzle=False,
+                                            debug_find_puzzle=True,
                                             debug_process_grid=False,
-                                            debug_ocr=False,
-                                            debug_fill=False,
+                                            debug_ocr=True,
+                                            debug_fill=True,
                                             preprocess=True,
-                                            process_grid=True,
+                                            process_grid=preprocess_grid,  # Using user choice
                                             ocr=True,
+                                            angle_orientation=correct_rotation,  # Using user choice
                                             solve=True,
                                             fill=True)
 
             # Display processing time
-            st.write(f"Processing Time: {(dt.now() - start).seconds} seconds")
+            processing_time = (dt.now() - start).seconds
+            st.write(f"⏳ Processing Time: {processing_time} seconds")
 
             # Display processed results
             col2.markdown("### 📏 Cropped Sudoku Board")
@@ -103,7 +126,3 @@ def main():
     st.markdown("<hr>", unsafe_allow_html=True)
     st.markdown("<p style='text-align: center; color: gray;'>Developed with ❤️ using OpenCV & Streamlit</p>",
                 unsafe_allow_html=True)
-
-
-if __name__ == "__main__":
-    main()
