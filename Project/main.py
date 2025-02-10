@@ -72,45 +72,32 @@ def main():
         col1.markdown("### 📷 Uploaded Image")
         col1.image(image, use_container_width=True)
 
-        # Add a progress bar while processing
-        progress_bar = st.progress(0)
-        with st.spinner("🛠 Processing the Sudoku puzzle..."):
-            try:
-                sudoku_result = sudoku_pipeline(image,
-                                                debug_find_puzzle=False,
-                                                debug_process_grid=False,
-                                                debug_ocr=False,
-                                                debug_fill=False,
-                                                preprocess=True,
-                                                process_grid=True,
-                                                ocr=True,
-                                                solve=True,
-                                                fill=True)
-                for percent in range(100):
-                    time.sleep(0.015)
-                    progress_bar.progress(percent + 1)
+        try:
+            sudoku_result = sudoku_pipeline(image,
+                                            debug_find_puzzle=True,
+                                            debug_process_grid=False,
+                                            debug_ocr=True,
+                                            debug_fill=True,
+                                            preprocess=True,
+                                            process_grid=True,
+                                            ocr=True,
+                                            solve=True,
+                                            fill=True)
 
-                # Display processing time
-                st.write(f"Processing Time: {(dt.now() - start).seconds} seconds")
+            # Display processing time
+            st.write(f"Processing Time: {(dt.now() - start).seconds} seconds")
 
-                # Display processed results
-                col2.markdown("### 📏 Cropped Sudoku Board")
-                col2.image(sudoku_result['sudoku_board_rgb'], use_container_width=True)
+            # Display processed results
+            col2.markdown("### 📏 Cropped Sudoku Board")
+            col2.image(sudoku_result['sudoku_board_rgb'], use_container_width=True)
 
-                col2.markdown("### ✅ Solved Sudoku")
-                col2.image(sudoku_result['solution'], use_container_width=True)
-
-                # Add beautiful effects after successful solve
-                st.balloons()
-                st.success("🎉 Sudoku Solved Successfully! 🎉")
-            except Exception as e:
-                st.error(
-                    f"❌ Unable to recognize or solve the Sudoku puzzle. "
-                    f"An error occurred while processing the image: {str(e)}")
-                st.info("😭 Please ensure the image is clear and contains a proper Sudoku grid.")
-
-        # Remove progress bar after completion
-        progress_bar.empty()
+            col2.markdown("### ✅ Solved Sudoku")
+            col2.image(sudoku_result['solution'], use_container_width=True)
+        except Exception as e:
+            st.error(
+                f"❌ Unable to recognize or solve the Sudoku puzzle. "
+                f"An error occurred while processing the image: {str(e)}")
+            st.info("😭 Please ensure the image is clear and contains a proper Sudoku grid.")
 
     # Footer
     st.markdown("<hr>", unsafe_allow_html=True)
