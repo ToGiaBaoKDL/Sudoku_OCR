@@ -290,7 +290,7 @@ def extract_angle_orientation(board, result_ocr, padding=5):
             roi = board[y_min:y_max, x_min:x_max]
             
             # Initialize OCR engine
-            ocr = PaddleOCR(use_angle_cls=True, lang="ch", det_db_box_thresh=0.3)
+            ocr = PaddleOCR(use_angle_cls=True, lang="ch", det_db_box_thresh=0.3, show_log = False)
             # Extract classification result for the specific ROI
             cls_result = ocr.ocr(roi, cls=True, det=False, rec=False)
 
@@ -443,9 +443,11 @@ def insert_answer_2_board(sudoku_board, original_board, solution_board, debug=Fa
     cell_height = height // 9
 
     font = cv2.FONT_HERSHEY_SIMPLEX
-    font_scale = min(cell_width, cell_height) / 60 + 0.2
-    font_thickness = 3
-    text_color = (0, 0, 255)
+    base_font_scale = min(cell_width, cell_height) / 35  # Scaled for uniformity
+    font_scale = max(0.5, base_font_scale)  # Ensuring a minimum readable scale
+    font_thickness = max(2, int(font_scale * 2))  # Dynamic but consistent thickness
+    text_color = (0, 0, 255)  # Red text
+    shadow_color = (255, 255, 255)  # White shadow for contrast
 
     for row in range(9):
         for col in range(9):
@@ -457,14 +459,17 @@ def insert_answer_2_board(sudoku_board, original_board, solution_board, debug=Fa
                 text_x = col * cell_width + (cell_width - text_size[0]) // 2
                 text_y = (row + 1) * cell_height - (cell_height - text_size[1]) // 2
 
-                # Write the number on the board image
-                cv2.putText(final_board, number, (text_x, text_y), font, font_scale, text_color, font_thickness)
+                # Add shadow for better visibility
+                cv2.putText(final_board, number, (text_x + 2, text_y + 2), font, font_scale, shadow_color, font_thickness, cv2.LINE_AA)
+                # Add main text
+                cv2.putText(final_board, number, (text_x, text_y), font, font_scale, text_color, font_thickness, cv2.LINE_AA)
 
     if debug:
         cv2.imshow("Final answer", cv2.resize(final_board, (512, 512)))
         cv2.waitKey(0)
 
     return final_board
+
 
 
 def sudoku_pipeline(image, debug_find_puzzle=False, debug_process_grid=False, debug_ocr=False, debug_fill=False, 
