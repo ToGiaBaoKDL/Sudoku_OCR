@@ -472,23 +472,36 @@ def insert_answer_2_board(sudoku_board, original_board, solution_board, debug=Fa
 
 
 
-def sudoku_pipeline(image, debug_find_puzzle=False, debug_process_grid=False, debug_ocr=False, debug_fill=False, 
+def sudoku_pipeline(image, debug_find_puzzle=False, debug_process_grid=False, debug_ocr=False, debug_fill=False,
                     preprocess=True, process_grid=True, ocr=True, solve=True, fill=True):
-    # Bước 1: Tìm bảng Sudoku trong ảnh
+    progress_bar = st.progress(0)
+    status_text = st.empty()
+
+    # Step 1: Find Sudoku Board
+    status_text.text("🧩 Step 1: Detecting Sudoku board...")
     sudoku_board_gray, sudoku_board_rgb = find_puzzle(image, debug=debug_find_puzzle)
     sudoku_board_gray, sudoku_board_rgb = get_right_perspective(sudoku_board_gray, sudoku_board_rgb)
+    progress_bar.progress(20)
+    time.sleep(1)
 
-    # Bước 2: Tiền xử lý bảng Sudoku
+    # Step 2: Preprocess Board
+    status_text.text("🧼 Step 2: Preprocessing Sudoku board...")
     if preprocess:
         sudoku_board_gray_clean = preprocess_board(sudoku_board_gray)
     else:
         sudoku_board_gray_clean = sudoku_board_gray
+    progress_bar.progress(40)
+    time.sleep(1)
 
-    # Bước 3: Xử lý lưới Sudoku
+    # Step 3: Process Grid
+    status_text.text("📑 Step 3: Processing Sudoku grid...")
     if process_grid:
         sudoku_board_gray_clean = process_sudoku_grid(sudoku_board_gray_clean, debug=debug_process_grid)
+    progress_bar.progress(50)
+    time.sleep(1)
 
-    # Bước 4: Nhận dạng ký tự (OCR) để lấy bài toán Sudoku
+    # Step 4: OCR Extraction
+    status_text.text("🔢 Step 4: Extracting numbers with OCR...")
     if ocr:
         puzzle, flag = ocr_sudoku(sudoku_board_gray_clean, debug=debug_ocr)
         if flag:
@@ -496,21 +509,33 @@ def sudoku_pipeline(image, debug_find_puzzle=False, debug_process_grid=False, de
             sudoku_board_rgb = cv2.rotate(sudoku_board_rgb, cv2.ROTATE_180)
     else:
         puzzle = None
+    progress_bar.progress(70)
+    time.sleep(1)
 
-    # Bước 5: Giải bài toán Sudoku
+    # Step 5: Solve Sudoku
+    status_text.text("🧠 Step 5: Solving Sudoku...")
     if solve and puzzle is not None:
         solution = solve_sudoku(puzzle)
     else:
         solution = None
-        
-    # Bước 6: Điền số trở lại bảng Sudoku gốc
+    progress_bar.progress(85)
+    time.sleep(1)
+
+    # Step 6: Fill in the Solution
+    status_text.text("✍️ Step 6: Filling in the solution...")
     if fill and solution is not None:
         filled = insert_answer_2_board(sudoku_board_rgb, puzzle.board, solution.board, debug=debug_fill)
     else:
         filled = None
-
+    progress_bar.progress(100)
     time.sleep(1)
-    # Trả về kết quả
+
+    st.balloons()
+    st.success("🎉 Sudoku Solved Successfully! 🎉")
+    
+    # Remove progress bar after completion
+    progress_bar.empty()
+
     return {
         'sudoku_board_rgb': sudoku_board_rgb,
         'sudoku_board_gray': sudoku_board_gray,
@@ -518,5 +543,6 @@ def sudoku_pipeline(image, debug_find_puzzle=False, debug_process_grid=False, de
         'puzzle': puzzle,
         'solution': filled
     }
+
 
 
