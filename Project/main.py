@@ -67,7 +67,6 @@ def main():
         else:
             image = image_source  # Pasted image is already an image
     
-        image = Image.open(input_image)
         image = np.array(image)  # Convert to numpy array
 
         # Create columns for better layout (Original Image | Processed Results)
