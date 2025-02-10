@@ -12,6 +12,7 @@ import pytesseract
 
 from PIL import Image
 import time
+import streamlit as st
 
 
 def find_puzzle_contour(image, debug=False):
