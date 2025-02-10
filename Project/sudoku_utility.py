@@ -274,8 +274,11 @@ def process_sudoku_grid(puzzle, debug=False):
 def extract_angle_orientation(board, result_ocr, padding=5):
     """
     Extracts the angle orientation for each detected text in the OCR result.
-    Returns a list of dictionaries containing text and its classification result.
+    Returns a list of tuples containing text and its classification result.
     """
+    
+    # Initialize OCR engine
+    ocr = PaddleOCR(use_angle_cls=True, lang="ch", det_db_box_thresh=0.3, show_log = True)
     cls_results = []
 
     for line in result_ocr:
@@ -289,9 +292,7 @@ def extract_angle_orientation(board, result_ocr, padding=5):
 
             # Crop region of interest (ROI)
             roi = board[y_min:y_max, x_min:x_max]
-            
-            # Initialize OCR engine
-            ocr = PaddleOCR(use_angle_cls=True, lang="ch", det_db_box_thresh=0.3, show_log = False)
+
             # Extract classification result for the specific ROI
             cls_result = ocr.ocr(roi, cls=True, det=False, rec=False)
 
