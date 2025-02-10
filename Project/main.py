@@ -68,6 +68,7 @@ def main():
             image = image_source  # Pasted image is already an image
     
         image = np.array(image)  # Convert to numpy array
+        st.write(image.shape)
 
         # Create columns for better layout (Original Image | Processed Results)
         col1, col2 = st.columns([2.5, 2])
