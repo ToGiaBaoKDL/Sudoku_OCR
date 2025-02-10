@@ -53,7 +53,7 @@ def main():
     elif uploaded_image:
         image_source = input_image
     elif pasted_image:
-        image_source = pasted_result.image_data
+        image_source = paste_result.image_data
     else:
         image_source = None
 
@@ -62,10 +62,8 @@ def main():
             image = Image.open(image_source)  # Uploaded file needs to be opened
         else:
             image = image_source  # Pasted image is already an image
-        st.write(type(image))
-        st.write(image)
+
         image = np.array(image)  # Convert to numpy array
-        st.write(image.shape)
 
         # Create columns for better layout (Original Image | Processed Results)
         col1, col2 = st.columns([2.5, 2])
