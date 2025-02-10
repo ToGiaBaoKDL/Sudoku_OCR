@@ -45,7 +45,7 @@ def main():
 
     # Handle image input source: either upload or paste
     uploaded_image = input_image is not None
-    pasted_image = paste_result is not None
+    pasted_image = paste_result.image_data is not None
 
     if uploaded_image and pasted_image:
         st.warning("⚠️ Both an uploaded image and a pasted image detected. The uploaded image will be used.")
