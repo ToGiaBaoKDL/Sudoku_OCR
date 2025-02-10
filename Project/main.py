@@ -6,7 +6,7 @@ from streamlit_paste_button import paste_image_button
 
 if __name__ == '__main__':
     start = dt.now()
-    pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+    # pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
     # Set full-screen layout and page title
     st.set_page_config(page_title="Sudoku Solver", layout="wide")
