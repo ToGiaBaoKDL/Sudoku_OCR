@@ -66,7 +66,7 @@ def main():
             image = Image.open(image_source)  # Uploaded file needs to be opened
         else:
             image = image_source  # Pasted image is already an image
-    
+        st.image(image)
         image = np.array(image)  # Convert to numpy array
         st.write(image.shape)
 
