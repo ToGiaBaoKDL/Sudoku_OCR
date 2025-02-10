@@ -537,6 +537,7 @@ def sudoku_pipeline(image, debug_find_puzzle=False, debug_process_grid=False, de
     
     # Remove progress bar after completion
     progress_bar.empty()
+    status_text.text("")
 
     return {
         'sudoku_board_rgb': sudoku_board_rgb,
