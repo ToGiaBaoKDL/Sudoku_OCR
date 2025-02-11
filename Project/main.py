@@ -24,7 +24,7 @@ async def enhance_image(img):
 
 
 if __name__ == '__main__':
-    pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+    # pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
     # Set full-screen layout and page title
     st.set_page_config(page_title="Sudoku Solver", layout="wide")
@@ -76,7 +76,7 @@ if __name__ == '__main__':
 
     setting_col_2_1, setting_col_2_2 = st.columns([0.7, 1])
     with setting_col_2_1:
-        preprocess_grid = st.checkbox("Enable Preprocessing", value=False)
+        preprocess_grid = st.checkbox("Enable Cells Preprocessing", value=False)
 
     with setting_col_2_2:
         with st.expander("🔧 Preprocess Cells Before OCR?"):
