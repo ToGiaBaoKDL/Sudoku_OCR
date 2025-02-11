@@ -46,6 +46,7 @@ Test the application directly using this link: [🔗 Live Demo](https://tgb-sudo
 - Python
 - OpenCV
 - PaddleOCR
+- Picwish
 
 ## 📌 Usage
 
