@@ -79,11 +79,11 @@ if __name__ == '__main__':
         preprocess_grid = st.checkbox("Enable Preprocessing", value=False)
 
     with setting_col_2_2:
-        with st.expander("🔧 Preprocess Grid Before OCR?"):
+        with st.expander("🔧 Preprocess Cells Before OCR?"):
             st.markdown(
-                "✔️ **What it does:** Enhances grid detection before OCR.\n\n"
-                "🔹 **Pros:** Can improve recognition by refining the grid.\n\n"
-                "⚠️ **Cons:** Not ideal for blurry images—it may distort details."
+                "✔️ **What it does:** Enhances each cell for better OCR recognition.\n\n"
+                "🔹 **Pros:** Can improve accuracy of recognizing numbers.\n\n"
+                "⚠️ **Cons:** May not work well for black background images or blurry images."
             )
 
     setting_col_3_1, setting_col_3_2 = st.columns([0.7, 1])
