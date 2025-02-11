@@ -6,7 +6,10 @@ This project is an **OCR-based Sudoku solver** that leverages **PaddleOCR** and 
 
 ![Streamlit demo](https://ik.imagekit.io/baodata2226/imagekit-assets/screenshot_1739239808310.png?updatedAt=1739248180829)
 
-## Demo
+## 🌐 Try It Online
+Test the application directly using this link: [🔗 Live Demo](https://tgb-sudokuocr.streamlit.app/)
+
+## ▶️ Example
 
 | Input                                                                                                        | Output                                                                                                       |
 |--------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
@@ -26,9 +29,6 @@ This project is an **OCR-based Sudoku solver** that leverages **PaddleOCR** and 
    - Extracts detected numbers, fills in missing values, and computes the solution.
 5. **Return the Final Image** 📸
    - Overlays the solved numbers back onto the original board image.
-
-## 🌐 Try It Online
-Test the application directly using this link: [🔗 Live Demo](https://tgb-sudokuocr.streamlit.app/)
 
 ## ⚠️ Known Issues
 
