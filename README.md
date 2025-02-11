@@ -4,6 +4,16 @@
 
 This project is an **OCR-based Sudoku solver** that leverages **PaddleOCR** and **OpenCV** for image processing. It takes an image of a Sudoku puzzle, extracts the numbers, solves the puzzle, and returns the completed Sudoku board.
 
+![Streamlit demo](https://ik.imagekit.io/baodata2226/imagekit-assets/screenshot_1739239808310.png?updatedAt=1739248180829)
+
+## Demo
+
+| Input                                                                                                        | Output                                                                                                       |
+|--------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| ![](https://ik.imagekit.io/baodata2226/imagekit-assets/screenshot_1739240123718.png?updatedAt=1739248180963) | ![](https://ik.imagekit.io/baodata2226/imagekit-assets/screenshot_1739240257816.png?updatedAt=1739248181295) |
+| ![](https://ik.imagekit.io/baodata2226/imagekit-assets/screenshot_1739240456648.png?updatedAt=1739248182220) | ![](https://ik.imagekit.io/baodata2226/imagekit-assets/screenshot_1739240415810.png?updatedAt=1739248181033) |
+| ![](https://ik.imagekit.io/baodata2226/imagekit-assets/screenshot_1739245027555.png?updatedAt=1739248181507) | ![](https://ik.imagekit.io/baodata2226/imagekit-assets/screenshot_1739245282917.png?updatedAt=1739248181392) |
+| ![](https://ik.imagekit.io/baodata2226/imagekit-assets/screenshot_1739241829726.png?updatedAt=1739248181261) | ![](https://ik.imagekit.io/baodata2226/imagekit-assets/screenshot_1739241887565.png?updatedAt=1739248181162) |                                                                                                                                                                                                                                                                                                                                                                                                              
 ## 🚀 Pipeline
 
 1. **Locate the Sudoku Board** 🕵️‍♂️
