@@ -1,0 +1,171 @@
+2025-06-12 00:37:31,244 - sudoku_ocr - INFO - Successfully initialized PaddleOCR
+2025-06-12 00:37:31,439 - sudoku_ocr - INFO - Successfully found puzzle contour
+2025-06-12 00:37:31,458 - sudoku_ocr - INFO - Successfully transformed puzzle image
+2025-06-12 00:37:31,464 - sudoku_ocr - INFO - Successfully preprocessed board image
+2025-06-12 00:37:31,523 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-12 00:37:31,524 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-12 00:38:15,814 - sudoku_ocr - INFO - Successfully completed OCR prediction
+2025-06-12 00:38:15,816 - sudoku_ocr - INFO - Successfully parsed OCR results into Sudoku grid
+2025-06-12 00:38:15,819 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 00:38:21,871 - sudoku_ocr - INFO - Successfully solved Sudoku puzzle
+2025-06-12 00:38:21,874 - sudoku_ocr - INFO - Successfully drew solution on board
+2025-06-12 00:45:03,443 - sudoku_ocr - INFO - Successfully initialized PaddleOCR
+2025-06-12 00:45:03,464 - sudoku_ocr - INFO - Successfully found puzzle contour
+2025-06-12 00:45:03,472 - sudoku_ocr - INFO - Successfully transformed puzzle image
+2025-06-12 00:45:03,476 - sudoku_ocr - INFO - Successfully preprocessed board image
+2025-06-12 00:45:03,526 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-12 00:45:03,526 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-12 00:46:11,163 - sudoku_ocr - INFO - Successfully completed OCR prediction
+2025-06-12 00:46:11,163 - sudoku_ocr - INFO - Successfully parsed OCR results into Sudoku grid
+2025-06-12 00:46:11,163 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 00:46:11,163 - sudoku_ocr - INFO - Successfully solved Sudoku puzzle
+2025-06-12 00:46:11,163 - sudoku_ocr - INFO - Successfully drew solution on board
+2025-06-12 00:47:23,258 - sudoku_ocr - INFO - Successfully initialized PaddleOCR
+2025-06-12 00:47:23,272 - sudoku_ocr - INFO - Successfully found puzzle contour
+2025-06-12 00:47:23,283 - sudoku_ocr - INFO - Successfully transformed puzzle image
+2025-06-12 00:47:23,291 - sudoku_ocr - INFO - Successfully preprocessed board image
+2025-06-12 00:47:23,449 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-12 00:47:23,450 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-12 00:48:51,965 - sudoku_ocr - INFO - Successfully completed OCR prediction
+2025-06-12 00:48:51,971 - sudoku_ocr - INFO - Successfully parsed OCR results into Sudoku grid
+2025-06-12 00:48:51,974 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 00:48:51,975 - sudoku_ocr - INFO - Successfully solved Sudoku puzzle
+2025-06-12 00:48:51,978 - sudoku_ocr - INFO - Successfully drew solution on board
+2025-06-12 01:20:55,739 - sudoku_ocr - INFO - Successfully initialized PaddleOCR
+2025-06-12 01:20:55,847 - sudoku_ocr - INFO - Successfully found puzzle contour
+2025-06-12 01:20:55,859 - sudoku_ocr - INFO - Successfully transformed puzzle image
+2025-06-12 01:20:55,868 - sudoku_ocr - INFO - Successfully preprocessed board image
+2025-06-12 01:20:56,095 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-12 01:20:56,097 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-12 01:22:58,155 - sudoku_ocr - INFO - Successfully completed OCR prediction
+2025-06-12 01:22:58,163 - sudoku_ocr - INFO - Successfully parsed OCR results into Sudoku grid
+2025-06-12 01:22:58,169 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 01:22:58,175 - sudoku_ocr - INFO - Successfully solved Sudoku puzzle
+2025-06-12 01:22:58,179 - sudoku_ocr - INFO - Successfully drew solution on board
+2025-06-12 19:04:21,684 - sudoku_ocr - INFO - Successfully initialized PaddleOCR
+2025-06-12 19:04:21,685 - sudoku_ocr - ERROR - Error in find_puzzle: ImageProcessor.find_puzzle_contour() takes 2 positional arguments but 3 were given
+2025-06-12 19:04:21,687 - sudoku_ocr - ERROR - Error processing image: Failed to find and transform puzzle: ImageProcessor.find_puzzle_contour() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "D:\Thuc hanh AI\Sudoku_OCR\src\core\image_processor.py", line 75, in find_puzzle
+    puzzle_contour = self.find_puzzle_contour(image, debug)
+TypeError: ImageProcessor.find_puzzle_contour() takes 2 positional arguments but 3 were given
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Thuc hanh AI\Sudoku_OCR\app\main.py", line 46, in process_image
+    sudoku_board_rgb = image_processor.find_puzzle(image_cv2)
+  File "D:\Thuc hanh AI\Sudoku_OCR\src\core\image_processor.py", line 82, in find_puzzle
+    raise ImageProcessingError(f"Failed to find and transform puzzle: {str(e)}")
+src.core.image_processor.ImageProcessingError: Failed to find and transform puzzle: ImageProcessor.find_puzzle_contour() takes 2 positional arguments but 3 were given
+
+2025-06-12 19:05:28,869 - sudoku_ocr - INFO - Successfully initialized PaddleOCR
+2025-06-12 19:05:28,896 - sudoku_ocr - INFO - Successfully found puzzle contour
+2025-06-12 19:05:28,906 - sudoku_ocr - INFO - Successfully transformed puzzle image
+2025-06-12 19:05:28,914 - sudoku_ocr - INFO - Successfully preprocessed board image
+2025-06-12 19:05:29,135 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-12 19:05:29,135 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-12 19:05:36,705 - sudoku_ocr - INFO - Successfully initialized PaddleOCR
+2025-06-12 19:05:36,730 - sudoku_ocr - INFO - Successfully found puzzle contour
+2025-06-12 19:05:36,740 - sudoku_ocr - INFO - Successfully transformed puzzle image
+2025-06-12 19:05:36,749 - sudoku_ocr - INFO - Successfully preprocessed board image
+2025-06-12 19:05:36,907 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-12 19:05:36,907 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-12 19:10:04,369 - sudoku_ocr - INFO - Successfully completed OCR prediction
+2025-06-12 19:10:04,401 - sudoku_ocr - INFO - Successfully parsed OCR results into Sudoku grid
+2025-06-12 19:10:04,416 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 19:10:04,416 - sudoku_ocr - INFO - Successfully solved Sudoku puzzle
+2025-06-12 19:10:04,416 - sudoku_ocr - INFO - Successfully drew solution on board
+2025-06-12 20:21:27,931 - sudoku_ocr - INFO - Successfully initialized PaddleOCR
+2025-06-12 20:21:28,125 - sudoku_ocr - INFO - Successfully found puzzle contour
+2025-06-12 20:21:28,150 - sudoku_ocr - INFO - Successfully transformed puzzle image
+2025-06-12 20:21:28,163 - sudoku_ocr - INFO - Successfully preprocessed board image
+2025-06-12 20:21:28,350 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-12 20:21:28,350 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-12 20:24:06,728 - sudoku_ocr - INFO - Successfully completed OCR prediction
+2025-06-12 20:24:06,757 - sudoku_ocr - INFO - Successfully parsed OCR results into Sudoku grid
+2025-06-12 20:24:06,759 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 20:24:06,760 - sudoku_ocr - INFO - Successfully solved Sudoku puzzle
+2025-06-12 20:24:06,791 - sudoku_ocr - INFO - Successfully drew solution on board
+2025-06-12 20:25:32,740 - sudoku_ocr - INFO - Successfully initialized PaddleOCR
+2025-06-12 20:25:32,938 - sudoku_ocr - INFO - Successfully found puzzle contour
+2025-06-12 20:25:32,965 - sudoku_ocr - INFO - Successfully transformed puzzle image
+2025-06-12 20:25:32,976 - sudoku_ocr - INFO - Successfully preprocessed board image
+2025-06-12 20:25:33,137 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-12 20:25:33,137 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-12 20:27:08,894 - sudoku_ocr - INFO - Successfully completed OCR prediction
+2025-06-12 20:42:22,262 - sudoku_ocr - INFO - Successfully initialized PaddleOCR
+2025-06-12 20:42:22,417 - sudoku_ocr - INFO - Successfully found puzzle contour
+2025-06-12 20:42:22,437 - sudoku_ocr - INFO - Successfully transformed puzzle image
+2025-06-12 20:42:22,446 - sudoku_ocr - INFO - Successfully preprocessed board image
+2025-06-12 20:42:22,609 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-12 20:42:22,610 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-12 20:43:55,811 - sudoku_ocr - INFO - Successfully completed OCR prediction
+2025-06-12 20:43:55,815 - sudoku_ocr - INFO - Successfully parsed OCR results into Sudoku grid
+2025-06-12 20:43:55,816 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 20:43:55,964 - sudoku_ocr - INFO - Successfully solved Sudoku puzzle
+2025-06-12 20:43:55,971 - sudoku_ocr - INFO - Successfully drew solution on board
+2025-06-12 20:54:30,046 - sudoku_ocr - INFO - Successfully initialized PaddleOCR
+2025-06-12 20:54:30,058 - sudoku_ocr - INFO - Successfully found puzzle contour
+2025-06-12 20:54:30,065 - sudoku_ocr - INFO - Successfully transformed puzzle image
+2025-06-12 20:54:30,072 - sudoku_ocr - INFO - Successfully preprocessed board image
+2025-06-12 20:54:30,232 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-12 20:54:30,232 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-12 20:56:33,351 - sudoku_ocr - INFO - Successfully initialized PaddleOCR
+2025-06-12 20:56:57,098 - sudoku_ocr - INFO - Successfully completed OCR prediction
+2025-06-12 21:01:46,643 - sudoku_ocr - INFO - Successfully initialized PaddleOCR
+2025-06-12 21:01:46,651 - sudoku_ocr - INFO - Successfully found puzzle contour
+2025-06-12 21:01:46,656 - sudoku_ocr - INFO - Successfully transformed puzzle image
+2025-06-12 21:01:46,664 - sudoku_ocr - INFO - Successfully preprocessed board image
+2025-06-12 21:01:46,807 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-12 21:01:46,807 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-12 21:04:48,328 - sudoku_ocr - INFO - Successfully completed OCR prediction
+2025-06-12 21:04:48,338 - sudoku_ocr - INFO - Successfully parsed OCR results into Sudoku grid with notes
+2025-06-12 21:04:48,341 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:04:48,344 - sudoku_ocr - INFO - Successfully solved Sudoku puzzle
+2025-06-12 21:04:48,350 - sudoku_ocr - INFO - Successfully drew solution on board
+2025-06-12 21:11:50,428 - sudoku_ocr - INFO - Successfully initialized PaddleOCR
+2025-06-12 21:11:50,437 - sudoku_ocr - INFO - Successfully found puzzle contour
+2025-06-12 21:11:50,444 - sudoku_ocr - INFO - Successfully transformed puzzle image
+2025-06-12 21:11:50,450 - sudoku_ocr - INFO - Successfully preprocessed board image
+2025-06-12 21:11:50,606 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-12 21:11:50,607 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-12 21:16:39,852 - sudoku_ocr - INFO - Successfully completed OCR prediction
+2025-06-12 21:16:39,901 - sudoku_ocr - INFO - Successfully parsed OCR results into Sudoku grid with notes
+2025-06-12 21:16:39,905 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:16:39,909 - sudoku_ocr - INFO - Successfully solved Sudoku puzzle
+2025-06-12 21:16:39,916 - sudoku_ocr - INFO - Successfully drew solution on board
+2025-06-12 21:53:58,633 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:53:58,633 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:53:58,633 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:53:58,633 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:53:58,633 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:56:44,014 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:56:44,014 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:56:44,014 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:56:44,014 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:56:44,014 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:56:44,014 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:57:48,099 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:57:48,099 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:57:48,104 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:57:48,104 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:57:48,104 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:57:48,104 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:59:08,834 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:59:08,834 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:59:08,834 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:59:08,834 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:59:08,834 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:59:08,839 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:59:17,304 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:59:17,304 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:59:17,304 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:59:17,314 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:59:17,315 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 21:59:17,315 - sudoku_ocr - INFO - Successfully created Sudoku puzzle
+2025-06-12 22:04:29,294 - sudoku_ocr - INFO - Successfully found puzzle contour
+2025-06-12 22:04:29,303 - sudoku_ocr - INFO - Successfully transformed puzzle image
+2025-06-12 22:04:29,305 - sudoku_ocr - INFO - Successfully preprocessed board image
+2025-06-12 22:04:29,314 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-12 22:04:29,314 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid

@@ -1,0 +1,46 @@
+2025-06-10 17:59:40,090 - sudoku_ocr - INFO - Successfully initialized PaddleOCR
+2025-06-10 17:59:40,135 - sudoku_ocr - INFO - Successfully found puzzle contour
+2025-06-10 17:59:40,171 - sudoku_ocr - INFO - Successfully transformed puzzle image
+2025-06-10 17:59:40,192 - sudoku_ocr - INFO - Successfully preprocessed board image
+2025-06-10 17:59:40,850 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-10 17:59:40,850 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-10 17:59:40,850 - sudoku_ocr - ERROR - Error in OCR prediction: 'PaddleOCR' object has no attribute 'predict'
+2025-06-10 17:59:40,850 - sudoku_ocr - ERROR - Error processing image: Failed to perform OCR prediction: 'PaddleOCR' object has no attribute 'predict'
+Traceback (most recent call last):
+  File "D:\Thuc hanh AI\Sudoku_OCR\src\ocr\paddle_ocr.py", line 33, in predict
+    self.results = self.ocr.predict(
+AttributeError: 'PaddleOCR' object has no attribute 'predict'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Thuc hanh AI\Sudoku_OCR\app\main.py", line 41, in process_image
+    ocr_results = ocr.predict(sudoku_board_rgb)
+  File "D:\Thuc hanh AI\Sudoku_OCR\src\ocr\paddle_ocr.py", line 41, in predict
+    raise OCRError(f"Failed to perform OCR prediction: {str(e)}")
+src.ocr.paddle_ocr.OCRError: Failed to perform OCR prediction: 'PaddleOCR' object has no attribute 'predict'
+
+2025-06-10 18:12:56,540 - sudoku_ocr - INFO - Successfully initialized PaddleOCR
+2025-06-10 18:12:56,554 - sudoku_ocr - INFO - Successfully found puzzle contour
+2025-06-10 18:12:56,575 - sudoku_ocr - INFO - Successfully transformed puzzle image
+2025-06-10 18:12:56,590 - sudoku_ocr - INFO - Successfully preprocessed board image
+2025-06-10 18:12:57,026 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-10 18:12:57,026 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-10 18:18:18,521 - sudoku_ocr - INFO - Successfully initialized PaddleOCR
+2025-06-10 18:18:18,551 - sudoku_ocr - INFO - Successfully found puzzle contour
+2025-06-10 18:18:18,576 - sudoku_ocr - INFO - Successfully transformed puzzle image
+2025-06-10 18:18:18,591 - sudoku_ocr - INFO - Successfully preprocessed board image
+2025-06-10 18:18:19,081 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-10 18:18:19,081 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-10 18:58:20,471 - sudoku_ocr - INFO - Successfully initialized PaddleOCR
+2025-06-10 18:58:20,548 - sudoku_ocr - INFO - Successfully found puzzle contour
+2025-06-10 18:58:20,607 - sudoku_ocr - INFO - Successfully transformed puzzle image
+2025-06-10 18:58:20,652 - sudoku_ocr - INFO - Successfully preprocessed board image
+2025-06-10 18:58:22,012 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-10 18:58:22,012 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-10 19:22:50,756 - sudoku_ocr - INFO - Successfully initialized PaddleOCR
+2025-06-10 19:22:50,786 - sudoku_ocr - INFO - Successfully found puzzle contour
+2025-06-10 19:22:50,803 - sudoku_ocr - INFO - Successfully transformed puzzle image
+2025-06-10 19:22:50,817 - sudoku_ocr - INFO - Successfully preprocessed board image
+2025-06-10 19:22:51,126 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
+2025-06-10 19:22:51,127 - sudoku_ocr - INFO - Successfully processed entire Sudoku grid
