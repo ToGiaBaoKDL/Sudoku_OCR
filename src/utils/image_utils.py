@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 from src.utils.logger import default_logger
 
+
 def resize_image(image, target_size=(128, 128)):
     """Resize image to target size while maintaining aspect ratio."""
     try:
@@ -12,6 +13,7 @@ def resize_image(image, target_size=(128, 128)):
         default_logger.error(f"Error resizing image: {str(e)}")
         raise
 
+
 def convert_to_grayscale(image):
     """Convert image to grayscale."""
     try:
@@ -21,6 +23,7 @@ def convert_to_grayscale(image):
     except Exception as e:
         default_logger.error(f"Error converting to grayscale: {str(e)}")
         raise
+
 
 def enhance_contrast(image):
     """Enhance image contrast using CLAHE."""
@@ -33,6 +36,7 @@ def enhance_contrast(image):
         default_logger.error(f"Error enhancing contrast: {str(e)}")
         raise
 
+
 def apply_gaussian_blur(image, kernel_size=(9, 9)):
     """Apply Gaussian blur to the image."""
     try:
@@ -42,6 +46,7 @@ def apply_gaussian_blur(image, kernel_size=(9, 9)):
     except Exception as e:
         default_logger.error(f"Error applying Gaussian blur: {str(e)}")
         raise
+
 
 def apply_adaptive_threshold(image, block_size=11, c=2):
     """Apply adaptive thresholding to the image."""
@@ -60,6 +65,7 @@ def apply_adaptive_threshold(image, block_size=11, c=2):
         default_logger.error(f"Error applying adaptive threshold: {str(e)}")
         raise
 
+
 def apply_sharpening(image):
     """Apply sharpening filter to the image."""
     try:
@@ -75,6 +81,7 @@ def apply_sharpening(image):
         default_logger.error(f"Error applying sharpening: {str(e)}")
         raise
 
+
 def detect_edges(image, threshold1=50, threshold2=150):
     """Detect edges in the image using Canny edge detection."""
     try:
@@ -86,6 +93,7 @@ def detect_edges(image, threshold1=50, threshold2=150):
     except Exception as e:
         default_logger.error(f"Error detecting edges: {str(e)}")
         raise
+
 
 def extract_cell(image, row, col, cell_size):
     """Extract a cell from the Sudoku grid."""

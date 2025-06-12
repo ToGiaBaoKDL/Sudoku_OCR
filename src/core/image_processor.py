@@ -1,3 +1,5 @@
+import os
+
 import cv2
 from picwish import PicWish
 from imutils.perspective import four_point_transform
@@ -74,7 +76,7 @@ class ImageProcessor:
         try:
             puzzle_contour = self.find_puzzle_contour(image)
             puzzle = four_point_transform(image, puzzle_contour.reshape(4, 2))
-            puzzle = cv2.resize(puzzle, (128, 128), interpolation=cv2.INTER_LANCZOS4)
+            puzzle = cv2.resize(puzzle, (1280, 1280), interpolation=cv2.INTER_LANCZOS4)
             default_logger.info("Successfully transformed puzzle image")
             return puzzle
         except Exception as e:

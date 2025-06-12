@@ -20,44 +20,38 @@ from src.utils.logger import default_logger
 from streamlit_paste_button import paste_image_button
 
 
+# Initialize processors
+image_processor = ImageProcessor()
+ocr = SudokuOCR()
+text_processor = TextProcessor()
+sudoku_solver = SudokuSolver()
+
+
 def process_image(image, has_notes=False, enhance_with_picwish=False):
     """Process the uploaded image and return the solution."""
     try:
         # Create a progress bar
         progress_bar = st.progress(0)
         status_text = st.empty()
-        
-        # Convert PIL Image to OpenCV format
-        status_text.text("Converting image format...")
-        image_cv2 = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
-        image_cv2 = cv2.cvtColor(image_cv2, cv2.COLOR_BGR2RGB)
-        progress_bar.progress(10)
 
-        # Initialize processors
-        status_text.text("Initializing processors...")
-        image_processor = ImageProcessor()
-        ocr = SudokuOCR()
-        text_processor = TextProcessor()
-        sudoku_solver = SudokuSolver()
-        progress_bar.progress(20)
+        # # Initialize processors
+        # status_text.text("Initializing processors...")
+        # progress_bar.progress(20)
 
-        # Process the image
-        status_text.text("Finding and processing Sudoku puzzle...")
-        sudoku_board_rgb = image_processor.find_puzzle(image_cv2)
-        progress_bar.progress(30)
-        
-        status_text.text("Preprocessing board...")
+        # Find and process sudoku board
+        status_text.text("Finding and preprocessing the puzzle...")
+        sudoku_board_rgb = image_processor.find_puzzle(image)
         sudoku_board_rgb = image_processor.preprocess_board(sudoku_board_rgb)
-        progress_bar.progress(40)
-        
-        status_text.text("Processing Sudoku grid...")
         sudoku_board_rgb = image_processor.process_sudoku_grid(sudoku_board_rgb)
-        progress_bar.progress(60)
+        progress_bar.progress(40)
 
         if enhance_with_picwish:
+            status_text.text("Enhancing the board with picwish...")
             asyncio.run(image_processor.enhance_with_picwish(sudoku_board_rgb))
             sudoku_board_rgb = cv2.imread("sudoku_enhanced.jpg")
             os.remove("sudoku_enhanced.jpg")
+            os.remove("sudoku_temp.jpg")
+            progress_bar.progress(60)
 
         # Run OCR
         status_text.text("Running OCR...")
@@ -82,6 +76,9 @@ def process_image(image, has_notes=False, enhance_with_picwish=False):
         status_text.text("Solving Sudoku puzzle...")
         puzzle = sudoku_solver.create_puzzle(sudoku_grid)
         solved_puzzle = sudoku_solver.solve()
+
+        if any(None in row for row in solved_puzzle.board):
+            raise ValueError("Sudoku puzzle could not be solved.")
 
         # Draw solution on the board
         status_text.text("Drawing solution...")
@@ -211,10 +208,10 @@ def main():
                 st.rerun()  # Rerun to hide the button immediately
 
         # Layout Columns (Original Image | Processed Results)
-        col1, col2 = st.columns([0.95, 1])
+        col1, col2, col3 = st.columns([1, 0.8, 0.7])
 
         # Display the Uploaded/Pasted Image
-        col1.markdown("### 📷 Uploaded Image")
+        col1.markdown("#### 📷 Uploaded Image")
         col1.image(image, use_container_width=True)
 
         if st.session_state["processing_started"]:  # Run processing only if button was clicked
@@ -222,7 +219,7 @@ def main():
 
             try:
                 # Process the image with selected options
-                result = process_image(Image.fromarray(image), has_notes, enhance_with_picwish)
+                result = process_image(image, has_notes, enhance_with_picwish)
 
                 if result['success']:
                     # Display Processing Time
@@ -230,23 +227,30 @@ def main():
                     st.write(f"⏳ Processing Time: {processing_time} seconds")
 
                     # # Display Processed Results
-                    # col2.markdown("### 📏 Cropped Sudoku Board")
-                    # col2.image(result['processed_image'], use_container_width=True)
+                    col2.markdown("#### ✅ Solved Sudoku")
+                    col2.image(result['solution_image'], use_container_width=True)
 
-                    # col2.markdown("### ✅ Solved Sudoku")
-                    # col2.image(result['solution_image'], use_container_width=True)
-                    #
                     # Display the original puzzle and solution
-                    col2.markdown("### 📝 Original Puzzle")
-                    col2.write(result['puzzle'])
-
-                    col2.markdown("### 🎯 Solution")
-                    col2.image(result['solution_image'])
+                    col3.markdown("#### 📝 Original Puzzle")
+                    col3.write(result['puzzle'])
 
                     # Show celebration balloons
                     st.balloons()
                 else:
-                    st.error(f"❌ Error processing the image: {result['error']}")
+                    col2.markdown("#### ❌ Failed")
+                    col2.error(f"Error processing the image: {result['error']}")
+                    fail_image = Image.open("src/assets/fail_sudoku.png")
+                    col3.markdown(
+                        """
+                        <h4 style="background: linear-gradient(90deg, #ff6a00, #ee0979); 
+                                    -webkit-background-clip: text; 
+                                    -webkit-text-fill-color: transparent;">
+                            がんばれ 💪
+                        </h4>
+                        """,
+                        unsafe_allow_html=True
+                    )
+                    col3.image(fail_image, use_container_width=True)
 
             except Exception as e:
                 st.error(
