@@ -2,8 +2,8 @@ imutils
 pillow
 scikit-image
 numpy
-paddlepaddle
-paddleocr
+paddlepaddle==3.0.0
+paddleocr==3.0.0
 opencv-python
 opencv-python-headless
 streamlit
