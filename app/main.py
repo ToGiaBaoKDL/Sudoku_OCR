@@ -306,7 +306,7 @@ def main():
                     with io.StringIO() as buf, contextlib.redirect_stdout(buf):
                         result['puzzle'].show()
                         output = buf.getvalue()
-                    col3.write(output)
+                    col3.text(output)
 
                     # Show celebration balloons
                     st.balloons()
@@ -318,7 +318,7 @@ def main():
                         with io.StringIO() as buf, contextlib.redirect_stdout(buf):
                             result['puzzle'].show()
                             output = buf.getvalue()
-                        st.write(output)
+                        st.text(output)
                     with col3:
                         fail_image = Image.open("assets/fail_sudoku.png")
                         st.markdown(gradient_heading("がんばれ", 4, "💪"), unsafe_allow_html=True)
