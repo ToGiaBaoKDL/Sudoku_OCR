@@ -48,3 +48,6 @@ class SudokuOCR:
     def get_results(self):
         """Get the current OCR results."""
         return self.results
+
+
+ocr = SudokuOCR()

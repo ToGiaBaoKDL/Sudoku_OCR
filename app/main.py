@@ -20,11 +20,43 @@ from src.utils.logger import default_logger
 from streamlit_paste_button import paste_image_button
 
 
-# Initialize processors
-image_processor = ImageProcessor()
-ocr = SudokuOCR()
-text_processor = TextProcessor()
-sudoku_solver = SudokuSolver()
+def gradient_heading(text: str,
+                     level: int = 1,
+                     emoji: str = "",
+                     outside_icon: bool = True,
+                     center: bool = False
+                     ) -> str:
+    """
+    Generate an HTML heading (h1-h6) with gradient-styled text and optional emoji.
+
+    Parameters:
+    text (str): The main heading text.
+    level (int): Heading level from 1 to 6 (default is 1 for <h1>).
+    emoji (str): An optional emoji to include with the heading.
+    outside_icon (bool): If True, the emoji appears outside the gradient effect.
+                         If False, the emoji is styled with the gradient.
+    center (bool): Whether to center the heading (adds text-align: center).
+
+    Returns:
+    str: A styled HTML string suitable for use in st.markdown(..., unsafe_allow_html=True).
+    """
+    tag = f"h{level}"
+    icon_html = f"<span>{emoji}</span>" if emoji and outside_icon else ""
+    gradient_text = f"{emoji} {text}" if emoji and not outside_icon else text
+    alignment = "text-align: center;" if center else ""
+
+    return f"""
+    <{tag} style="font-weight: 700; letter-spacing: 0.5px; {alignment}">
+        {icon_html}
+        <span style="background: linear-gradient(90deg, #6b7280, #a5b4fc, #f472b6);
+                     -webkit-background-clip: text;
+                     -webkit-text-fill-color: transparent;
+                     background-clip: text;
+                     color: transparent;">
+            {gradient_text}
+        </span>
+    </{tag}>
+    """
 
 
 def process_image(image, has_notes=False, enhance_with_picwish=False):
@@ -34,9 +66,11 @@ def process_image(image, has_notes=False, enhance_with_picwish=False):
         progress_bar = st.progress(0)
         status_text = st.empty()
 
-        # # Initialize processors
-        # status_text.text("Initializing processors...")
-        # progress_bar.progress(20)
+        # Initialize processors
+        image_processor = ImageProcessor()
+        ocr = SudokuOCR()
+        text_processor = TextProcessor()
+        sudoku_solver = SudokuSolver()
 
         # Find and process sudoku board
         status_text.text("Finding and preprocessing the puzzle...")
@@ -83,9 +117,9 @@ def process_image(image, has_notes=False, enhance_with_picwish=False):
         # Draw solution on the board
         status_text.text("Drawing solution...")
         solution_image = draw_solution_on_board(
-            sudoku_board_rgb, 
-            puzzle.board, 
-            solved_puzzle.board, 
+            sudoku_board_rgb,
+            puzzle.board,
+            solved_puzzle.board,
             ocr_result
         )
         progress_bar.progress(100)
@@ -109,46 +143,79 @@ def process_image(image, has_notes=False, enhance_with_picwish=False):
 
 def main():
     # Set full-screen layout and page title
-    st.set_page_config(page_title="Sudoku Solver", layout="wide")
+    st.set_page_config(
+        page_title="Sudoku Solver",
+        layout="wide",
+        initial_sidebar_state="expanded",
+        page_icon="assets/sudoku_favicon.png"
+    )
+
+    # Initialize session state variables
+    if "restart_counter" not in st.session_state:
+        st.session_state.restart_counter = 0
+    if "processing_started" not in st.session_state:
+        st.session_state.processing_started = False
+    if "image_processed" not in st.session_state:
+        st.session_state.image_processed = None
 
     # Stylish Header
-    st.markdown("<h1 style='text-align: center; color: #FF5733;'>🧩 Sudoku Solver</h1>", unsafe_allow_html=True)
+    st.markdown(gradient_heading("Sudoku Solver", 1, "🧩", center=True), unsafe_allow_html=True)
     st.markdown(
         "<p style='text-align: center; font-size: 18px; color: pink;'>Upload an image of a Sudoku puzzle and"
         " we'll try to solve it for you! 😊</p>",
         unsafe_allow_html=True)
 
     # Sidebar Information
-    st.sidebar.markdown("## ℹ️ About This Project")
+    st.sidebar.markdown(gradient_heading("About This Project", 2, "ℹ️"), unsafe_allow_html=True)
     st.sidebar.info("This project is an OCR-based Sudoku solver that leverages PaddleOCR and OpenCV "
                     "for image processing. It extracts numbers from a Sudoku puzzle image, solves the puzzle, "
                     "and returns the completed Sudoku board.")
 
     # Image Upload Section
-    st.sidebar.markdown("### 📤 Upload or Paste Sudoku Image")
+    st.sidebar.markdown(gradient_heading("Upload or Paste Sudoku Image", 2, "📤"), unsafe_allow_html=True)
     st.sidebar.write("You can either upload an image file or paste an image from the clipboard.")
-    input_image = st.sidebar.file_uploader("Choose an image file", type=['png', 'jpg', 'jpeg'])
+
+    # Use restart_counter as key to force widget reset
+    input_image = st.sidebar.file_uploader(
+        "Choose an image file",
+        type=['png', 'jpg', 'jpeg'],
+        key=f"uploaded_image_{st.session_state.restart_counter}"
+    )
 
     col_paste, col_restart = st.columns([0.25, 1])
     with col_paste:
+        # Use restart_counter as key to force widget reset
         paste_result = paste_image_button(
             label="🎨 Paste an Image",
             text_color="black",
-            background_color="#81C784",
-            hover_background_color="#66A76F",
+            background_color="linear-gradient(90deg, #6b7280, #a5b4fc, #f472b6)",
+            hover_background_color="linear-gradient(90deg, #4b5563, #818cf8, #ec4899)",
+            key=f"pasted_image_{st.session_state.restart_counter}",
         )
     with col_restart:
         if st.button("🔄 Restart Solver", key="restart_solver", help="Click to reset the solver", type="secondary"):
-            st.session_state["processing_started"] = False  # Reset processing state
+            # Clear all session state
+            for key in list(st.session_state.keys()):
+                if key != "restart_counter":  # Keep restart_counter to maintain widget keys
+                    del st.session_state[key]
+
+            # Increment restart counter to force widget reset
+            st.session_state.restart_counter += 1
+            st.session_state.processing_started = False
+            st.session_state.image_processed = None
             st.rerun()
 
     # Processing Options
-    st.markdown("#### ⚙️ Processing Options")
+    st.markdown(gradient_heading("Processing Options", 4, "⚙️"), unsafe_allow_html=True)
+
     # First option: Enhance image with PicWish
     setting_col_1_1, setting_col_1_2 = st.columns([0.7, 1])
     with setting_col_1_1:
-        enhance_with_picwish = st.checkbox("Enable Image Enhancement with PicWish", value=False)
-
+        enhance_with_picwish = st.checkbox(
+            "Enable Image Enhancement with PicWish",
+            value=False,
+            key=f"enhance_with_picwish_{st.session_state.restart_counter}"
+        )
     with setting_col_1_2:
         with st.expander("🔧 Enhance Image with PicWish?"):
             st.markdown(
@@ -160,8 +227,11 @@ def main():
     # Second option: Sudoku image contains notes
     setting_col_2_1, setting_col_2_2 = st.columns([0.7, 1])
     with setting_col_2_1:
-        has_notes = st.checkbox("Sudoku Image Contains Notes", value=False)
-
+        has_notes = st.checkbox(
+            "Sudoku Image Contains Notes",
+            value=False,
+            key=f"contain_notes_{st.session_state.restart_counter}"
+        )
     with setting_col_2_2:
         with st.expander("🔧 Sudoku Image Contains Notes On Grid?"):
             st.markdown(
@@ -172,7 +242,7 @@ def main():
 
     # Handle image input source: either upload or paste
     uploaded_image = input_image is not None
-    pasted_image = paste_result.image_data is not None
+    pasted_image = paste_result.image_data is not None if paste_result else False
 
     if uploaded_image and pasted_image:
         st.warning("⚠️ Both an uploaded image and a pasted image detected. The uploaded image will be used.")
@@ -184,11 +254,6 @@ def main():
     else:
         image_source = None
 
-    # Reset processing state when a new image is uploaded/pasted
-    if image_source is not None and "last_image_source" in st.session_state and st.session_state["last_image_source"] != image_source:
-        st.session_state["processing_started"] = False  # Reset state when new image is detected
-    st.session_state["last_image_source"] = image_source  # Save current image source
-
     # Display Image if Available
     if image_source is not None:
         if uploaded_image:
@@ -198,23 +263,24 @@ def main():
 
         image = np.array(image)  # Convert to numpy array
 
-        # Start Button for Processing (Hidden After Click)
-        if "processing_started" not in st.session_state:
-            st.session_state["processing_started"] = False  # Initialize state
+        # Store image in session state to maintain it during processing
+        st.session_state.image_processed = image
 
-        if not st.session_state["processing_started"]:
-            if st.button("▶️ Start Processing", key="start_processing", help="Click to begin solving"):
-                st.session_state["processing_started"] = True  # Set processing state
+        # Start Button for Processing (Hidden After Click)
+        if not st.session_state.processing_started:
+            if st.button("▶️ Start Processing", key=f"start_processing_{st.session_state.restart_counter}",
+                         help="Click to begin solving"):
+                st.session_state.processing_started = True  # Set processing state
                 st.rerun()  # Rerun to hide the button immediately
 
         # Layout Columns (Original Image | Processed Results)
-        col1, col2, col3 = st.columns([1, 0.8, 0.7])
+        col1, col2, col3 = st.columns([0.9, 0.8, 0.8])
 
         # Display the Uploaded/Pasted Image
-        col1.markdown("#### 📷 Uploaded Image")
+        col1.markdown(gradient_heading("Uploaded Image", 4, "📷"), unsafe_allow_html=True)
         col1.image(image, use_container_width=True)
 
-        if st.session_state["processing_started"]:  # Run processing only if button was clicked
+        if st.session_state.processing_started:  # Run processing only if button was clicked
             start = dt.now()  # Start timer
 
             try:
@@ -226,30 +292,21 @@ def main():
                     processing_time = (dt.now() - start).seconds
                     st.write(f"⏳ Processing Time: {processing_time} seconds")
 
-                    # # Display Processed Results
-                    col2.markdown("#### ✅ Solved Sudoku")
+                    # Display Processed Results
+                    col2.markdown(gradient_heading("Solved Sudoku", 4, "✅"), unsafe_allow_html=True)
                     col2.image(result['solution_image'], use_container_width=True)
 
                     # Display the original puzzle and solution
-                    col3.markdown("#### 📝 Original Puzzle")
+                    col3.markdown(gradient_heading("Original Puzzle", 4, "📝"), unsafe_allow_html=True)
                     col3.write(result['puzzle'])
 
                     # Show celebration balloons
                     st.balloons()
                 else:
-                    col2.markdown("#### ❌ Failed")
+                    col2.markdown(gradient_heading("Failed", 4, "❌"), unsafe_allow_html=True)
                     col2.error(f"Error processing the image: {result['error']}")
                     fail_image = Image.open("assets/fail_sudoku.png")
-                    col3.markdown(
-                        """
-                        <h4 style="background: linear-gradient(90deg, #ff6a00, #ee0979); 
-                                    -webkit-background-clip: text; 
-                                    -webkit-text-fill-color: transparent;">
-                            がんばれ 💪
-                        </h4>
-                        """,
-                        unsafe_allow_html=True
-                    )
+                    col3.markdown(gradient_heading("がんばれ", 4, "💪"), unsafe_allow_html=True)
                     col3.image(fail_image, use_container_width=True)
 
             except Exception as e:
@@ -257,6 +314,12 @@ def main():
                     f"❌ Unable to recognize or solve the Sudoku puzzle. "
                     f"An error occurred while processing the image: {str(e)}")
                 st.info("😭 Please ensure the image is clear and contains a proper Sudoku grid.")
+
+    # Display stored image if available and no new image is uploaded (for cases where checkboxes trigger rerun)
+    elif st.session_state.image_processed is not None and not st.session_state.processing_started:
+        # This handles the case where user ticks/unticks checkboxes after restart
+        # In this case, we don't want to show the old image
+        pass
 
     # Footer
     st.markdown("<hr>", unsafe_allow_html=True)

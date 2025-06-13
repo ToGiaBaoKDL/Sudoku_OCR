@@ -251,3 +251,6 @@ class TextProcessor:
     def get_ocr_result(self):
         """Get the current OCR result."""
         return self.ocr_result
+
+
+text_processor = TextProcessor()
