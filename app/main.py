@@ -10,8 +10,6 @@ from datetime import datetime as dt
 
 # Add the src directory to the Python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-os.environ['FONTCONFIG_PATH'] = '/tmp'
-os.environ['FONTCONFIG_FILE'] = '/tmp/fonts.conf'
 
 from src.core.image_processor import ImageProcessor
 from src.core.sudoku_solver import SudokuSolver
@@ -241,7 +239,7 @@ def main():
                 else:
                     col2.markdown("#### ❌ Failed")
                     col2.error(f"Error processing the image: {result['error']}")
-                    fail_image = Image.open("src/assets/fail_sudoku.png")
+                    fail_image = Image.open("assets/fail_sudoku.png")
                     col3.markdown(
                         """
                         <h4 style="background: linear-gradient(90deg, #ff6a00, #ee0979); 

@@ -1,10 +1,8 @@
+import os
+os.environ["PADDLE_PDX_LOCAL_FONT_FILE_PATH"] = "assets/fonts/PingFang-SC-Regular.ttf"
+
 from paddleocr import PaddleOCR
 from src.utils.logger import default_logger
-import os
-
-
-os.environ['FONTCONFIG_PATH'] = '/tmp'
-os.environ['FONTCONFIG_FILE'] = '/tmp/fonts.conf'
 
 
 class OCRError(Exception):
