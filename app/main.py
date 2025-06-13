@@ -305,12 +305,14 @@ def main():
                     # Show celebration balloons
                     st.balloons()
                 else:
-                    col2.markdown(gradient_heading("Failed", 4, "❌"), unsafe_allow_html=True)
-                    col2.error(f"Error processing the image: {result['error']}")
-                    col2.write(result['puzzle'].show())
-                    fail_image = Image.open("assets/fail_sudoku.png")
-                    col3.markdown(gradient_heading("がんばれ", 4, "💪"), unsafe_allow_html=True)
-                    col3.image(fail_image, use_container_width=True)
+                    with col2:
+                        st.markdown(gradient_heading("Failed", 4, "❌"), unsafe_allow_html=True)
+                        st.error(f"Error processing the image: {result['error']}")
+                        result['puzzle'].show()
+                    with col3:
+                        fail_image = Image.open("assets/fail_sudoku.png")
+                        st.markdown(gradient_heading("がんばれ", 4, "💪"), unsafe_allow_html=True)
+                        st.image(fail_image, use_container_width=True)
 
             except Exception as e:
                 st.error(
