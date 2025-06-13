@@ -300,14 +300,14 @@ def main():
 
                     # Display the original puzzle and solution
                     col3.markdown(gradient_heading("Original Puzzle", 4, "📝"), unsafe_allow_html=True)
-                    col3.write(result['puzzle'])
+                    col3.write(result['puzzle'].show())
 
                     # Show celebration balloons
                     st.balloons()
                 else:
                     col2.markdown(gradient_heading("Failed", 4, "❌"), unsafe_allow_html=True)
                     col2.error(f"Error processing the image: {result['error']}")
-                    col2.write(result['puzzle'])
+                    col2.write(result['puzzle'].show())
                     fail_image = Image.open("assets/fail_sudoku.png")
                     col3.markdown(gradient_heading("がんばれ", 4, "💪"), unsafe_allow_html=True)
                     col3.image(fail_image, use_container_width=True)
