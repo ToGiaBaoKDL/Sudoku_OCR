@@ -10,6 +10,8 @@ from datetime import datetime as dt
 
 # Add the src directory to the Python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+os.environ['FONTCONFIG_PATH'] = '/tmp'
+os.environ['FONTCONFIG_FILE'] = '/tmp/fonts.conf'
 
 from src.core.image_processor import ImageProcessor
 from src.core.sudoku_solver import SudokuSolver
