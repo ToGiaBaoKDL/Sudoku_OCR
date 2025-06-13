@@ -300,7 +300,12 @@ def main():
 
                     # Display the original puzzle and solution
                     col3.markdown(gradient_heading("Original Puzzle", 4, "📝"), unsafe_allow_html=True)
-                    col3.write(result['puzzle'].show())
+                    markdown_table = "| " + " | ".join([str(i + 1) for i in range(9)]) + " |\n"
+                    markdown_table += "|---" * 9 + "|\n"
+                    for row in result['puzzle'].board:
+                        markdown_table += "| " + " | ".join(str(num) if num != 0 else " " for num in row) + " |\n"
+
+                    col3.markdown(markdown_table)
 
                     # Show celebration balloons
                     st.balloons()
@@ -308,7 +313,12 @@ def main():
                     with col2:
                         st.markdown(gradient_heading("Failed", 4, "❌"), unsafe_allow_html=True)
                         st.error(f"Error processing the image: {result['error']}")
-                        result['puzzle'].show()
+                        markdown_table = "| " + " | ".join([str(i + 1) for i in range(9)]) + " |\n"
+                        markdown_table += "|---" * 9 + "|\n"
+                        for row in result['puzzle'].board:
+                            markdown_table += "| " + " | ".join(str(num) if num != 0 else " " for num in row) + " |\n"
+
+                        st.markdown(markdown_table)
                     with col3:
                         fail_image = Image.open("assets/fail_sudoku.png")
                         st.markdown(gradient_heading("がんばれ", 4, "💪"), unsafe_allow_html=True)
