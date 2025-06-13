@@ -7,6 +7,8 @@ import os
 import traceback
 import asyncio
 from datetime import datetime as dt
+import io
+import contextlib
 
 # Add the src directory to the Python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -300,12 +302,11 @@ def main():
 
                     # Display the original puzzle and solution
                     col3.markdown(gradient_heading("Original Puzzle", 4, "📝"), unsafe_allow_html=True)
-                    markdown_table = "| " + " | ".join([str(i + 1) for i in range(9)]) + " |\n"
-                    markdown_table += "|---" * 9 + "|\n"
-                    for row in result['puzzle'].board:
-                        markdown_table += "| " + " | ".join(str(num) if num != 0 else " " for num in row) + " |\n"
-
-                    col3.markdown(markdown_table)
+                    # Capture printed output from puzzle.show()
+                    with io.StringIO() as buf, contextlib.redirect_stdout(buf):
+                        result['puzzle'].show()
+                        output = buf.getvalue()
+                    col3.write(output)
 
                     # Show celebration balloons
                     st.balloons()
@@ -313,12 +314,11 @@ def main():
                     with col2:
                         st.markdown(gradient_heading("Failed", 4, "❌"), unsafe_allow_html=True)
                         st.error(f"Error processing the image: {result['error']}")
-                        markdown_table = "| " + " | ".join([str(i + 1) for i in range(9)]) + " |\n"
-                        markdown_table += "|---" * 9 + "|\n"
-                        for row in result['puzzle'].board:
-                            markdown_table += "| " + " | ".join(str(num) if num != 0 else " " for num in row) + " |\n"
-
-                        st.markdown(markdown_table)
+                        # Capture printed output from puzzle.show()
+                        with io.StringIO() as buf, contextlib.redirect_stdout(buf):
+                            result['puzzle'].show()
+                            output = buf.getvalue()
+                        st.write(output)
                     with col3:
                         fail_image = Image.open("assets/fail_sudoku.png")
                         st.markdown(gradient_heading("がんばれ", 4, "💪"), unsafe_allow_html=True)
