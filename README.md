@@ -7,7 +7,7 @@ This project is an **OCR-based Sudoku solver** that leverages **PaddleOCR** and 
 ![Streamlit demo](https://ik.imagekit.io/baodata2226/imagekit-assets/screenshot_1739239808310.png?updatedAt=1739248180829)
 
 ## 🌐 Try It Online
-Test the application directly using this link: [🔗 Live Demo](https://tgb-sudokuocr.streamlit.app/)
+Test the application directly using this link: [🔗 Live Demo](https://sudoku-ocr-tgb.streamlit.app/)
 
 ## ▶️ Example
 
@@ -53,5 +53,5 @@ Test the application directly using this link: [🔗 Live Demo](https://tgb-sudo
 To test the application, you can use the provided Streamlit app by running the following command:
 
 ```bash
-streamlit run Project/main.py
+streamlit run app/main.py
 ```
