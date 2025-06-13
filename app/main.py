@@ -309,8 +309,8 @@ def main():
                     col2.error(f"Error processing the image: {result['error']}")
                     fail_image = Image.open("assets/fail_sudoku.png")
                     col3.markdown(gradient_heading("がんばれ", 4, "💪"), unsafe_allow_html=True)
-                    # col3.image(fail_image, use_container_width=True)
-                    col3.write(f"{result['puzzle']}")
+                    col3.image(fail_image, use_container_width=True)
+                st.write(f"{result['puzzle']}")
             except Exception as e:
                 st.error(
                     f"❌ Unable to recognize or solve the Sudoku puzzle. "
