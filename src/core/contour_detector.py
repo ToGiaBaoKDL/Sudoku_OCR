@@ -13,7 +13,7 @@ class ContourDetector:
     """Class for handling contour detection operations."""
 
     @staticmethod
-    def find_contours(image, min_area_ratio=0.008, aspect_ratio_range=(0.2, 1.9), edge_ratio_threshold=0.58):
+    def find_contours(image):
         """Find contours in the image."""
         try:
             cnts = cv2.findContours(image.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)

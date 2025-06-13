@@ -45,6 +45,3 @@ class SudokuSolver:
     def get_solution(self):
         """Get the current solution."""
         return self.solution
-
-
-sudoku_solver = SudokuSolver()

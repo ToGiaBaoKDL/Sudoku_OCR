@@ -1,5 +1,3 @@
-import os
-
 import cv2
 from picwish import PicWish
 from imutils.perspective import four_point_transform
@@ -117,6 +115,3 @@ class ImageProcessor:
         picwish = PicWish()
         enhanced = await picwish.enhance("sudoku_temp.jpg")
         await enhanced.download("sudoku_enhanced.jpg")
-
-
-image_processor = ImageProcessor()
