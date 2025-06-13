@@ -61,6 +61,7 @@ def gradient_heading(text: str,
 
 def process_image(image, has_notes=False, enhance_with_picwish=False):
     """Process the uploaded image and return the solution."""
+    puzzle = None
     try:
         # Create a progress bar
         progress_bar = st.progress(0)
@@ -137,7 +138,8 @@ def process_image(image, has_notes=False, enhance_with_picwish=False):
         default_logger.error(f"Error processing image: {str(e)}\n{traceback.format_exc()}")
         return {
             'success': False,
-            'error': str(e)
+            'error': str(e),
+            'puzzle': puzzle,
         }
 
 
@@ -305,6 +307,7 @@ def main():
                 else:
                     col2.markdown(gradient_heading("Failed", 4, "❌"), unsafe_allow_html=True)
                     col2.error(f"Error processing the image: {result['error']}")
+                    col2.write(f"{result['puzzle']}")
                     fail_image = Image.open("assets/fail_sudoku.png")
                     col3.markdown(gradient_heading("がんばれ", 4, "💪"), unsafe_allow_html=True)
                     col3.image(fail_image, use_container_width=True)
