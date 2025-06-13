@@ -181,7 +181,7 @@ class TextProcessor:
                         cell_area = cell_width * cell_height
 
                         # Skip if bounding box area is less than 13% of cell area
-                        if bbox_area < 0.13 * cell_area:
+                        if bbox_area < 0.18 * cell_area:
                             continue
 
                         # Check if bounding box center is within the central region of the cell

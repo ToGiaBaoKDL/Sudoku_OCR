@@ -61,6 +61,26 @@ def gradient_heading(text: str,
     """
 
 
+def format_sudoku_board(board, box_height=3, box_width=3):
+    size = box_height * box_width
+    cell_length = len(str(size))
+    format_int = '{0:0' + str(cell_length) + 'd}'
+    table = ''
+
+    for i, row in enumerate(board):
+        if i == 0:
+            table += ('+-' + '-' * (cell_length + 1) * box_width) * box_height + '+\n'
+
+        table += (
+                         ('| ' + '{} ' * box_width) * box_height + '|'
+                 ).format(*[format_int.format(x) if x is not None and x != 0 else ' ' * cell_length for x in row]) + '\n'
+
+        if i == size - 1 or (i + 1) % box_height == 0:
+            table += ('+-' + '-' * (cell_length + 1) * box_width) * box_height + '+\n'
+
+    return table
+
+
 def process_image(image, has_notes=False, enhance_with_picwish=False):
     """Process the uploaded image and return the solution."""
     puzzle = None
@@ -278,7 +298,7 @@ def main():
                 st.rerun()  # Rerun to hide the button immediately
 
         # Layout Columns (Original Image | Processed Results)
-        col1, col2, col3 = st.columns([0.9, 0.8, 0.8])
+        col1, col2, col3 = st.columns([1, 0.85, 0.8])
 
         # Display the Uploaded/Pasted Image
         col1.markdown(gradient_heading("Uploaded Image", 4, "📷"), unsafe_allow_html=True)
@@ -302,11 +322,9 @@ def main():
 
                     # Display the original puzzle and solution
                     col3.markdown(gradient_heading("Original Puzzle", 4, "📝"), unsafe_allow_html=True)
-                    # Capture printed output from puzzle.show()
-                    with io.StringIO() as buf, contextlib.redirect_stdout(buf):
-                        result['puzzle'].show()
-                        output = buf.getvalue()
-                    col3.text(output)
+                    board = result['puzzle'].board
+                    sudoku_ascii = format_sudoku_board(board)
+                    col3.code(sudoku_ascii)
 
                     # Show celebration balloons
                     st.balloons()
@@ -314,11 +332,9 @@ def main():
                     with col2:
                         st.markdown(gradient_heading("Failed", 4, "❌"), unsafe_allow_html=True)
                         st.error(f"Error processing the image: {result['error']}")
-                        # Capture printed output from puzzle.show()
-                        with io.StringIO() as buf, contextlib.redirect_stdout(buf):
-                            result['puzzle'].show()
-                            output = buf.getvalue()
-                        st.text(output)
+                        board = result['puzzle'].board
+                        sudoku_ascii = format_sudoku_board(board)
+                        st.code(sudoku_ascii)
                     with col3:
                         fail_image = Image.open("assets/fail_sudoku.png")
                         st.markdown(gradient_heading("がんばれ", 4, "💪"), unsafe_allow_html=True)
