@@ -1,5 +1,10 @@
 from paddleocr import PaddleOCR
 from src.utils.logger import default_logger
+import os
+
+
+os.environ['FONTCONFIG_PATH'] = '/tmp'
+os.environ['FONTCONFIG_FILE'] = '/tmp/fonts.conf'
 
 
 class OCRError(Exception):
