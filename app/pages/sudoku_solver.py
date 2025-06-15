@@ -1,3 +1,6 @@
+import os
+os.environ["PADDLE_PDX_LOCAL_FONT_FILE_PATH"] = "assets/fonts/PingFang-SC-Regular.ttf"
+
 import streamlit as st
 from app.config.settings import PAGE_CONFIG
 
