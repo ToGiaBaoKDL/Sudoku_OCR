@@ -1,7 +1,5 @@
 import os
-import sys
 
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 os.environ["PADDLE_PDX_LOCAL_FONT_FILE_PATH"] = "assets/fonts/PingFang-SC-Regular.ttf"
 
 from paddleocr import PaddleOCR
