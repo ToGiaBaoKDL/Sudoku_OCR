@@ -3,7 +3,6 @@ from app.config.settings import PAGE_CONFIG
 
 st.set_page_config(**PAGE_CONFIG)
 
-from paddleocr import PaddleOCR
 from streamlit_option_menu import option_menu
 from app.components.styles import gradient_heading
 from app.components.styles import apply_global_styles, apply_navibar_styles
