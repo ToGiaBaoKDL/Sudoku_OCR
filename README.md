@@ -35,14 +35,12 @@ Test the application directly using this link: [🔗 Live Demo](https://sudoku-o
 
 3. **OCR for Digit Recognition** 🔢
    - Utilizes PaddleOCR for accurate digit detection
-   - Handles both printed and digital Sudoku puzzles
    - Supports processing of Sudoku notes (small candidate numbers)
    - Implements confidence scoring for digit recognition
 
 4. **Solve the Puzzle** 🏆
    - Implements backtracking algorithm for Sudoku solving
    - Validates puzzle constraints and rules
-   - Handles various difficulty levels
    - Provides complete solution with error checking
 
 5. **Return the Final Image** 📸
