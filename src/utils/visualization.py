@@ -100,3 +100,20 @@ def visualize_paddleocr_result(img_path, result, save_path=None):
     except Exception as e:
         default_logger.error(f"Error in visualize_paddleocr_result: {str(e)}")
         raise VisualizationError(f"Failed to visualize OCR results: {str(e)}")
+
+
+def format_sudoku_board(board, box_height=3, box_width=3):
+    size = box_height * box_width
+    cell_length = len(str(size))
+    format_int = '{0:0' + str(cell_length) + 'd}'
+    table = ''
+
+    for i, row in enumerate(board):
+        if i == 0:
+            table += ('+-' + '-' * (cell_length + 1) * box_width) * box_height + '+\n'
+        table += (
+            ('| ' + '{} ' * box_width) * box_height + '|'
+        ).format(*[format_int.format(x) if x is not None and x != 0 else ' ' * cell_length for x in row]) + '\n'
+        if i == size - 1 or (i + 1) % box_height == 0:
+            table += ('+-' + '-' * (cell_length + 1) * box_width) * box_height + '+\n'
+    return table
