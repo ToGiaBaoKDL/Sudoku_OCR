@@ -1,5 +1,7 @@
 # 🧩 OCR Sudoku Solver
 
+[English](README.md) | [Tiếng Việt](README.vi.md)
+
 ## 📌 Overview
 
 This project is an **OCR-based Sudoku solver** that leverages **PaddleOCR** and **OpenCV** for image processing. It takes an image of a Sudoku puzzle, extracts the numbers, solves the puzzle, and returns the completed Sudoku board.
@@ -11,8 +13,8 @@ Test the application directly using this link: [🔗 Live Demo](https://sudoku-o
 
 ## ▶️ Example
 
-| Input                                                                                                        | Output                                                                                                       |
-|--------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| Input | Output |
+|-------|--------|
 | ![](https://ik.imagekit.io/baodata2226/imagekit-assets/screenshot_1739240123718.png?updatedAt=1739248180963) | ![](https://ik.imagekit.io/baodata2226/imagekit-assets/screenshot_1739240257816.png?updatedAt=1739248181295) |
 | ![](https://ik.imagekit.io/baodata2226/imagekit-assets/screenshot_1739240456648.png?updatedAt=1739248182220) | ![](https://ik.imagekit.io/baodata2226/imagekit-assets/screenshot_1739240415810.png?updatedAt=1739248181033) |
 | ![](https://ik.imagekit.io/baodata2226/imagekit-assets/screenshot_1739245027555.png?updatedAt=1739248181507) | ![](https://ik.imagekit.io/baodata2226/imagekit-assets/screenshot_1739245282917.png?updatedAt=1739248181392) |
@@ -53,21 +55,28 @@ Test the application directly using this link: [🔗 Live Demo](https://sudoku-o
 
 ```
 Sudoku_OCR/
-├── app/
-│   ├── main.py           # Streamlit application entry point
-│   ├── components.py     # UI components and styling
-│   └── pages/           # Additional Streamlit pages
-├── src/
-│   ├── core/            # Core processing modules
-│   │   ├── image_processor.py    # Main image processing pipeline
-│   │   ├── sudoku_solver.py      # Sudoku solving algorithm
-│   │   ├── cell_processor.py     # Individual cell processing
-│   │   └── contour_detector.py   # Board detection and extraction
-│   ├── ocr/             # OCR-related modules
-│   │   ├── paddle_ocr.py         # PaddleOCR integration
-│   │   └── text_processor.py     # OCR result processing
-│   └── utils/           # Utility functions
-└── requirements.txt     # Project dependencies
+├── app/                    # Streamlit application
+│   ├── main.py            # Entry point
+│   ├── components/        # UI components
+│   ├── pages/            # Additional pages
+│   └── config/           # Configuration files
+├── src/                   # Source code
+│   ├── core/             # Core processing
+│   │   ├── image_processor.py
+│   │   ├── sudoku_solver.py
+│   │   ├── cell_processor.py
+│   │   └── contour_detector.py
+│   ├── ocr/              # OCR modules
+│   │   ├── paddle_ocr.py
+│   │   └── text_processor.py
+│   └── utils/            # Utilities
+├── notebooks/            # Jupyter notebooks
+├── tests/               # Test files
+├── assets/             # Static assets
+├── logs/               # Log files
+├── requirements.txt    # Python dependencies
+├── packages.txt       # System dependencies
+└── setup.py           # Installation script
 ```
 
 ## ⚠️ Known Issues
@@ -79,11 +88,11 @@ Sudoku_OCR/
 
 ## 💡 Tips for Best Results
 
-- Ensure the **Sudoku board is fully visible** in the image  
-- Try to **capture a clear, well-lit image** to improve OCR performance  
-- Avoid **angled or distorted views** for better board detection  
-- Use **printed or digital Sudoku puzzles** for best results  
-- Enable **PicWish enhancement** for low-quality images  
+- Ensure the **Sudoku board is fully visible** in the image
+- Try to **capture a clear, well-lit image** to improve OCR performance
+- Avoid **angled or distorted views** for better board detection
+- Use **printed or digital Sudoku puzzles** for best results
+- Enable **PicWish enhancement** for low-quality images
 - Check **Sudoku Image Contains Notes** if your puzzle has candidate numbers
 
 ## 🛠️ Dependencies
@@ -94,14 +103,14 @@ Sudoku_OCR/
 - Streamlit
 - NumPy
 - Pillow
-- Picwish (optional)
+- Picwish
 
 ## 📌 Usage
 
 1. **Local Installation**
    ```bash
    # Clone the repository
-   git clone https://github.com/yourusername/Sudoku_OCR.git
+   git clone https://github.com/ToGiaBaoKDL/Sudoku_OCR.git
    cd Sudoku_OCR
 
    # Install dependencies
@@ -117,10 +126,6 @@ Sudoku_OCR/
    - Configure processing options if needed
    - Get your solved puzzle!
 
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
 ## 📝 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the GNU General Public License - see the LICENSE file for details.

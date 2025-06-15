@@ -8,5 +8,6 @@ opencv-python
 opencv-python-headless
 streamlit
 streamlit-paste-button
+streamlit-option-menu
 py-sudoku
 picwish
