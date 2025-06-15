@@ -35,21 +35,19 @@ Thử nghiệm ứng dụng trực tiếp qua link: [🔗 Live Demo](https://sud
 
 3. **OCR nhận dạng số** 🔢
    - Sử dụng PaddleOCR để phát hiện số chính xác
-   - Xử lý cả Sudoku in và số hóa
    - Hỗ trợ xử lý ghi chú Sudoku (số ứng viên nhỏ)
    - Thực hiện tính điểm tin cậy cho nhận dạng số
 
 4. **Giải câu đố** 🏆
    - Thực hiện thuật toán quay lui để giải Sudoku
    - Xác thực các ràng buộc và quy tắc của câu đố
-   - Xử lý nhiều cấp độ khó khác nhau
    - Cung cấp giải pháp hoàn chỉnh với kiểm tra lỗi
 
 5. **Trả về hình ảnh cuối cùng** 📸
-   - Đặt các số đã giải lên bảng gốc
+   - Viết đè các số đã giải ra lên bảng sudoku gốc
    - Duy trì chất lượng và phong cách hình ảnh gốc
    - Làm nổi bật các số giải pháp để dễ nhìn hơn
-   - Giữ nguyên các số câu đố gốc
+   - Giữ nguyên các số ở câu đố gốc
 
 ## 🛠️ Cấu trúc dự án
 
@@ -79,14 +77,14 @@ Sudoku_OCR/
 └── setup.py           # Tệp cài đặt
 ```
 
-## ⚠️ Vấn đề đã biết
+## ⚠️ Vấn đề còn tồn đọng
 
 - **Chữ số viết tay** không được nhận dạng chính xác
 - **Hình ảnh mờ** làm giảm độ chính xác của OCR
 - **Nền phức tạp** có thể ảnh hưởng đến việc phát hiện bảng
 - **Hình ảnh bị biến dạng nghiêm trọng** có thể không xử lý được
 
-## 💡 Các mẹo để có kết quả tốt nhất
+## 💡 Một số mẹo để có kết quả tốt nhất
 
 - Đảm bảo **bảng Sudoku hiển thị đầy đủ** trong hình ảnh
 - Cố gắng **chụp hình ảnh rõ ràng, đủ sáng** để cải thiện hiệu suất OCR
@@ -95,7 +93,7 @@ Sudoku_OCR/
 - Bật **cải thiện PicWish** cho hình ảnh chất lượng thấp
 - Kiểm tra **hình ảnh Sudoku có ghi chú** nếu câu đố của bạn có số ứng viên
 
-## 🛠️ Package đi kèm
+## 🛠️ Packages đi kèm
 
 - Python 3.10+
 - OpenCV
